@@ -37,9 +37,9 @@
 
 ```bash
 # 本仓库位于 ~/personal_work/skills
-# 在目标项目根目录执行（Claude Code 项目通常放在 .claude/skills/）：
-mkdir -p .claude/skills
-ln -s ~/personal_work/skills/<skill-name> .claude/skills/<skill-name>
+# 在目标项目根目录执行（各项目统一放在 .agents/skills/）：
+mkdir -p .agents/skills
+ln -s ~/personal_work/skills/<skill-name> .agents/skills/<skill-name>
 ```
 
 ## 注意事项

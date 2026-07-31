@@ -19,13 +19,13 @@ skills/
 
 ## 在其他项目中使用
 
-在目标项目中，把需要的 skill 软链接到该项目的 skill 目录下（Claude Code 项目通常是 `.claude/skills/`）。
+在目标项目中，把需要的 skill 软链接到该项目统一的 skill 目录 `.agents/skills/` 下（各项目都约定使用这个目录）。
 
 ```bash
 # 假设本仓库位于 ~/personal_work/skills
 # 在目标项目根目录执行：
-mkdir -p .claude/skills
-ln -s ~/personal_work/skills/<skill-name> .claude/skills/<skill-name>
+mkdir -p .agents/skills
+ln -s ~/personal_work/skills/<skill-name> .agents/skills/<skill-name>
 ```
 
 链接后，对本仓库中该 skill 的任何修改都会自动在所有引用它的项目中生效。
