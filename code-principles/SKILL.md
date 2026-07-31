@@ -9,17 +9,12 @@ Apply these principles before writing or modifying code. Review the final diff a
 
 ## Testing Principles
 
-1. Add tests only when they protect meaningful behavior or a credible regression risk. Omit tests for very small functions whose behavior is deterministic, straightforward, and unlikely to fail.
-2. Keep primary execution-path tests simple. Avoid verifying the same logic repeatedly; prefer one representative test whenever possible.
-3. Reduce each regression test to the smallest scenario that proves the regression. Add a comment explaining both the triggering mechanism and the real-world scenario.
-4. Keep tests deterministic, fast, and readable. Mock I/O, time and sleeps, network access, synchronization, or similar behavior when using the real dependency would be slow or unreliable.
+1. Keep test scope proportional to the change's risk and complexity: invest more where a failure is costly or the logic is complex, and less where it is trivial.
+2. Add tests only when they protect meaningful behavior or a credible regression risk. Omit tests for very small functions whose behavior is deterministic, straightforward, and unlikely to fail.
+3. Keep happy-path tests simple. Avoid verifying the same logic repeatedly; prefer one representative test whenever possible.
+4. Reduce each regression test to the smallest scenario that proves the regression. Add a comment explaining both the triggering mechanism and the real-world scenario.
+5. Keep tests deterministic, fast, and readable. Mock I/O, time and sleeps, network access, synchronization, and similar dependencies when the real one would be slow or unreliable.
 
 ## Completion Check
 
-Before completing any code update:
-
-- Confirm every test protects a distinct, credible risk.
-- Remove duplicate coverage, unnecessary helpers, and unnecessary setup.
-- Confirm every regression test uses the smallest reproducer and documents its trigger and scenario.
-- Replace slow or unreliable dependencies with focused mocks.
-- Keep the overall test scope proportional to the risk and complexity of the change.
+Before finishing, review the final diff against the principles above and confirm the test scope stays proportional to the change's risk and complexity.
