@@ -1,0 +1,6 @@
+interface:
+  display_name: "JJ Bookmark Review"
+  short_description: "Run advisory review before moving a JJ bookmark"
+  default_prompt: "Use $jj-bookmark-review to review the target change, report any advisory findings, and set its Jujutsu bookmark after a valid review."
+policy:
+  allow_implicit_invocation: true
