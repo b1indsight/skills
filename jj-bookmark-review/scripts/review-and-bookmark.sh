@@ -21,8 +21,22 @@ cd "$workspace_root"
 # Force jj to snapshot the working copy before resolving the target revision.
 jj status >/dev/null
 
-change_id=$(jj log -r "$revision" --no-graph -T 'change_id.shortest(12)')
-commit_id=$(jj log -r "$revision" --no-graph -T 'commit_id')
+# Resolve the target revision to exactly one commit. A revset that matches
+# zero or several commits would otherwise concatenate ids and corrupt the
+# review prompt, the report path, and the final bookmark target.
+revision_commits=$(jj log -r "$revision" --no-graph --limit 2 -T 'commit_id ++ "\n"')
+if [[ -z "$revision_commits" ]]; then
+  echo "review gate failed: revision '$revision' resolved to no commits" >&2
+  echo "bookmark was not changed" >&2
+  exit 65
+fi
+if [[ "$revision_commits" == *$'\n'* ]]; then
+  echo "review gate failed: revision '$revision' must resolve to exactly one commit" >&2
+  echo "bookmark was not changed" >&2
+  exit 65
+fi
+commit_id=$revision_commits
+change_id=$(jj log -r "$commit_id" --no-graph -T 'change_id.shortest(12)')
 git_dir=$(git rev-parse --git-dir)
 report_dir="$git_dir/jj-reviews"
 script_dir=$(cd "$(dirname "$0")" && pwd)
@@ -60,5 +74,8 @@ else
   echo "Codex review passed with zero findings." >&2
 fi
 
-jj bookmark set "$bookmark" -r "$revision"
+# Pin the bookmark to the exact commit that was reviewed, not a re-resolved
+# revision, so a working-copy snapshot during review cannot retarget it to an
+# unreviewed commit. --ignore-working-copy avoids taking a fresh snapshot here.
+jj bookmark set "$bookmark" -r "$commit_id" --ignore-working-copy
 echo "Review report: $report" >&2
