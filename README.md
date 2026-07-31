@@ -4,6 +4,8 @@
 
 这个仓库集中保存所有可以被**全局复用**的 skill。任何需要用到某个 skill 的项目，通过**软链接（symlink）**把这里对应的 skill 目录链接到该项目下，从而复用同一份定义，避免重复维护。
 
+已收录的 skill 见 [SKILLS.md](SKILLS.md)（由脚本自动生成的目录索引）。
+
 ## 目录结构
 
 ```
@@ -31,8 +33,9 @@ ln -s ~/personal_work/skills/<skill-name> .claude/skills/<skill-name>
 ## 新增 skill
 
 1. 在本仓库新建一个 `<skill-name>/` 目录并编写 `SKILL.md`。
-2. 提交并推送到远端。
-3. 在需要用到它的项目里按上面的方式软链接。
+2. 运行 `./scripts/gen-skills-index.sh` 刷新目录索引 [SKILLS.md](SKILLS.md)。
+3. 提交并推送到远端。
+4. 在需要用到它的项目里按上面的方式软链接。
 
 ## 说明
 
