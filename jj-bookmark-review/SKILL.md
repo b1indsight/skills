@@ -15,13 +15,32 @@ bookmark-mutating `jj` command directly when this skill applies.
    sandbox permissions on the first attempt. The revision defaults to `@`.
 3. Let the script run an independent, read-only `codex exec review` and parse its
    structured findings.
-4. If review produces findings, report them to the user but do not block the
-   bookmark or the requested push. The user decides whether a finding requires
-   another iteration on the same change.
+4. Review output is advisory only. If review produces findings, report them to the
+   user, but do not send the change back for mandatory rework (不打回) and do not block
+   the bookmark or the requested push. Only output the review result; findings never
+   gate the bookmark. The user may choose to iterate on the same change, subject to the
+   rework limit below.
 5. If review execution or result parsing fails, treat the review as failed. Stop,
    report the error, and do not mutate the bookmark.
 6. After any successfully parsed review result, including a non-empty findings
    array, let the script run `jj bookmark set <bookmark> -r <revision>`.
+
+## Rework limit
+
+This cap targets **findings-driven rework only**, not normal development. A rework pass is
+when you revise the change *solely to satisfy the previous review's findings* and then
+review again. Run **at most 3 findings-driven review passes** on the same change; once
+three have run, stop reviewing, output the final result, and proceed to set the bookmark.
+The cap exists because chasing findings otherwise tends to hunt for problems without limit.
+
+The cap does **not** restrict reviews of normal forward work. A review prompted by a new
+requested change, continued feature development, or a fix unrelated to the prior findings
+is not rework — it does not count against this cap, and is reviewed as usual even though
+`jj` keeps the same change id across edits to the same commit.
+
+Findings are advisory and output-only: never treat an in-cap review as a gate that forces
+another iteration, and never send the change back for mandatory rework (不打回). Only the
+failures in Workflow step 5 (review execution or schema parsing) block the bookmark.
 
 ## Execution permissions
 
