@@ -15,6 +15,16 @@ Apply these principles before writing or modifying code. Review the final diff a
 4. Reduce each regression test to the smallest scenario that proves the regression. Add a comment explaining both the triggering mechanism and the real-world scenario.
 5. Keep tests deterministic, fast, and readable. Mock I/O, time and sleeps, network access, synchronization, and similar dependencies when the real one would be slow or unreliable.
 
+## Docstrings and Comments
+
+1. Add a docstring to complex functions, methods, classes, and interfaces, and to a module's public API. Explain how to use it, and include an example when the usage is not obvious.
+2. Add a comment to explain *why* something is done, or to supply context or detail the code cannot express on its own. Do not restate what the code already makes clear.
+
+## Abstraction and Duplication
+
+1. Avoid over-abstraction, but don't let duplication spread silently. For a small, local second copy, leave a note linking the two sites instead of abstracting on sight, and extract only once they must change in lockstep, drift, or recur a third time. Keep by-design duplication separate, never merge merely coincidental similarity, and never duplicate large or load-bearing logic. Prefer duplication over the wrong abstraction.
+2. Add a layer of indirection only when it hides a real variation or decision behind a stable boundary and thereby reduces overall complexity; a layer that only forwards calls is not worth it.
+
 ## Completion Check
 
 Before finishing, review the final diff against the principles above and confirm the test scope stays proportional to the change's risk and complexity.
