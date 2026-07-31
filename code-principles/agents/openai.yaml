@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Principles"
+  short_description: "Mandatory principles for every code change"
+  default_prompt: "Use $code-principles to apply the mandatory principles to this code change."
