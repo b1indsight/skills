@@ -25,6 +25,16 @@ Apply these principles before writing or modifying code. Review the final diff a
 1. Avoid over-abstraction, but don't let duplication spread silently. For a small, local second copy, leave a note linking the two sites instead of abstracting on sight, and extract only once they must change in lockstep, drift, or recur a third time. Keep by-design duplication separate, never merge merely coincidental similarity, and never duplicate large or load-bearing logic. Prefer duplication over the wrong abstraction.
 2. Add a layer of indirection only when it hides a real variation or decision behind a stable boundary and thereby reduces overall complexity; a layer that only forwards calls is not worth it.
 
+## Scope and Consistency
+
+1. Make the smallest change that solves the problem. Don't refactor unrelated code, add speculative flexibility (YAGNI), or widen scope beyond the task.
+2. Match the surrounding code's conventions, naming, and idioms instead of introducing your own.
+
+## Error Handling
+
+1. Validate inputs at trust boundaries, and handle each error where you can actually act on it — never swallow errors silently or catch broadly without handling them.
+2. Fail fast on programmer errors; degrade gracefully on expected operational failures.
+
 ## Completion Check
 
 Before finishing, review the final diff against the principles above and confirm the test scope stays proportional to the change's risk and complexity.
