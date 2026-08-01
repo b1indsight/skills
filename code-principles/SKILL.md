@@ -24,6 +24,7 @@ Apply these principles before writing or modifying code. Review the final diff a
 
 1. Avoid over-abstraction, but don't let duplication spread silently. For a small, local second copy, leave a note linking the two sites instead of abstracting on sight, and extract only once they must change in lockstep, drift, or recur a third time. Keep by-design duplication separate, never merge merely coincidental similarity, and never duplicate large or load-bearing logic. Prefer duplication over the wrong abstraction.
 2. Add a layer of indirection only when it hides a real variation or decision behind a stable boundary and thereby reduces overall complexity; a layer that only forwards calls is not worth it.
+3. Add a parameter, flag, or option only when a caller actually varies it; a knob every caller sets to the same value is dead complexity. Hard-code the value now and introduce the knob when a second, real setting appears.
 
 ## Scope and Consistency
 
