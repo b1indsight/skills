@@ -81,8 +81,8 @@ Examples:
 .agents/skills/jj-bookmark-review/scripts/review-and-bookmark.sh fix/audio @-
 ```
 
-The script stores local review reports under `.git/jj-reviews/`. Do not add
-these reports to the repository.
+The script stores local review reports and the captured diff under
+`.git/jj-reviews/`. Do not add these files to the repository.
 
 ## Scope
 

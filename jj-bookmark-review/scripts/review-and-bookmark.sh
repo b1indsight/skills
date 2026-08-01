@@ -42,18 +42,52 @@ report_dir="$git_dir/jj-reviews"
 script_dir=$(cd "$(dirname "$0")" && pwd)
 schema="$script_dir/review-schema.json"
 report="$report_dir/${change_id}-${commit_id:0:12}.json"
+diff_file="$report_dir/${change_id}-${commit_id:0:12}.diff"
 mkdir -p "$report_dir"
 
-prompt="Perform an independent code review of Git commit $commit_id only. Do not modify any files. Read AGENTS.md before reviewing. Inspect the changes introduced by the commit and report every actionable correctness bug, regression, concurrency issue, error-handling defect, security issue, and material test gap. Return an empty findings array only when there are no actionable problems. Use an empty file string and line 0 when a finding has no precise source location."
+# Capture the exact diff the reviewed commit introduces and feed it to Codex via
+# stdin, so the review is bounded to that diff instead of Codex re-deriving it
+# with git and exploring the wider repo. This keeps the review native to jj and
+# independent of whether the commit is visible to a colocated git. Extra context
+# lines reduce the need to reopen files; --ignore-working-copy avoids a fresh
+# snapshot that could diverge from the pinned commit.
+if ! jj diff -r "$commit_id" --git --context 8 --ignore-working-copy >"$diff_file"; then
+  echo "review gate failed: could not produce diff for $commit_id" >&2
+  echo "bookmark was not changed" >&2
+  exit 70
+fi
+
+prompt="Perform an independent code review of the code diff provided in the <stdin> block. Review only that diff; you may read a changed file's immediately surrounding lines to judge a hunk, but do not explore or read unrelated files elsewhere in the repository. Do not modify any files. Report every actionable correctness bug, regression, concurrency issue, error-handling defect, security issue, and material test gap in the diff. Return an empty findings array only when there are no actionable problems. Use an empty file string and line 0 when a finding has no precise source location."
 
 echo "Running Codex review for change $change_id ($commit_id)..." >&2
-if ! codex exec \
+
+# Cap the review at a hard wall-clock limit so a slow or hung Codex run fails
+# cleanly instead of hanging the caller. coreutils `timeout` is absent on stock
+# macOS and `wait -n` needs bash 4.3+, so use a portable background watchdog:
+# block on the review, but SIGTERM it if the watchdog's sleep elapses first.
+review_timeout=60
+codex exec \
   --ephemeral \
   --sandbox read-only \
   --output-schema "$schema" \
   --output-last-message "$report" \
-  "$prompt"; then
-  echo "review gate failed: Codex review did not complete" >&2
+  "$prompt" <"$diff_file" &
+review_pid=$!
+( sleep "$review_timeout"; kill -TERM "$review_pid" 2>/dev/null ) &
+watchdog_pid=$!
+
+review_status=0
+wait "$review_pid" 2>/dev/null || review_status=$?
+# Cancel the watchdog if the review finished on its own.
+kill -TERM "$watchdog_pid" 2>/dev/null || true
+wait "$watchdog_pid" 2>/dev/null || true
+
+if (( review_status != 0 )); then
+  if (( review_status == 143 )); then
+    echo "review gate failed: Codex review timed out after ${review_timeout}s" >&2
+  else
+    echo "review gate failed: Codex review did not complete" >&2
+  fi
   echo "bookmark was not changed" >&2
   exit 70
 fi
