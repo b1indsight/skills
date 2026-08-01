@@ -81,6 +81,11 @@ Examples:
 .agents/skills/jj-bookmark-review/scripts/review-and-bookmark.sh fix/audio @-
 ```
 
+The review is capped at 180s by default; override with the
+`JJ_REVIEW_TIMEOUT_SECONDS` environment variable. Invoke the script with a tool
+timeout larger than that cap (e.g. 210s) so the script's own watchdog reports a
+clean timeout before the outer call is killed.
+
 The script stores local review reports and the captured diff under
 `.git/jj-reviews/`. Do not add these files to the repository.
 

@@ -45,6 +45,16 @@ report="$report_dir/${change_id}-${commit_id:0:12}.json"
 diff_file="$report_dir/${change_id}-${commit_id:0:12}.diff"
 mkdir -p "$report_dir"
 
+# Hard wall-clock cap for the review, in seconds. Override with
+# JJ_REVIEW_TIMEOUT_SECONDS; keep it below the tool timeout the caller gives this
+# script, or that outer limit fires first with a less clear error.
+review_timeout=${JJ_REVIEW_TIMEOUT_SECONDS:-180}
+if ! [[ "$review_timeout" =~ ^[1-9][0-9]*$ ]]; then
+  echo "review gate failed: JJ_REVIEW_TIMEOUT_SECONDS must be a positive integer of seconds (got '$review_timeout')" >&2
+  echo "bookmark was not changed" >&2
+  exit 64
+fi
+
 # Capture the exact diff the reviewed commit introduces and feed it to Codex via
 # stdin, so the review is bounded to that diff instead of Codex re-deriving it
 # with git and exploring the wider repo. This keeps the review native to jj and
@@ -61,11 +71,10 @@ prompt="Perform an independent code review of the code diff provided in the <std
 
 echo "Running Codex review for change $change_id ($commit_id)..." >&2
 
-# Cap the review at a hard wall-clock limit so a slow or hung Codex run fails
-# cleanly instead of hanging the caller. coreutils `timeout` is absent on stock
-# macOS and `wait -n` needs bash 4.3+, so use a portable background watchdog:
-# block on the review, but SIGTERM it if the watchdog's sleep elapses first.
-review_timeout=60
+# Enforce the wall-clock cap above so a slow or hung Codex run fails cleanly
+# instead of hanging the caller. coreutils `timeout` is absent on stock macOS and
+# `wait -n` needs bash 4.3+, so use a portable background watchdog: block on the
+# review, but SIGTERM it if the watchdog's sleep elapses first.
 codex exec \
   --ephemeral \
   --sandbox read-only \
