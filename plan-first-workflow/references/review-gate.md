@@ -69,8 +69,8 @@ Examples:
 .agents/skills/plan-first-workflow/scripts/review-and-bookmark.sh fix/hotkey-timeout @-
 ```
 
-The review is capped at 180s by default; override with `JJ_REVIEW_TIMEOUT_SECONDS`. Invoke the
-script with a tool timeout larger than that cap (e.g. 210s) so the script's own watchdog reports
+The review is capped at 300s by default; override with `JJ_REVIEW_TIMEOUT_SECONDS`. Invoke the
+script with a tool timeout larger than that cap (e.g. 330s) so the script's own watchdog reports
 a clean timeout before the outer call is killed.
 
 The script stores local review reports and the captured diff under `.git/jj-reviews/`. Do not add
