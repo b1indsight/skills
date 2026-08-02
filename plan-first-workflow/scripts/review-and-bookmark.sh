@@ -48,7 +48,7 @@ mkdir -p "$report_dir"
 # Hard wall-clock cap for the review, in seconds. Override with
 # JJ_REVIEW_TIMEOUT_SECONDS; keep it below the tool timeout the caller gives this
 # script, or that outer limit fires first with a less clear error.
-review_timeout=${JJ_REVIEW_TIMEOUT_SECONDS:-180}
+review_timeout=${JJ_REVIEW_TIMEOUT_SECONDS:-300}
 if ! [[ "$review_timeout" =~ ^[1-9][0-9]*$ ]]; then
   echo "review gate failed: JJ_REVIEW_TIMEOUT_SECONDS must be a positive integer of seconds (got '$review_timeout')" >&2
   echo "bookmark was not changed" >&2
@@ -110,11 +110,11 @@ fi
 finding_count=$(jq '.findings | length' "$report")
 if (( finding_count > 0 )); then
   echo >&2
-  echo "Codex review found $finding_count advisory problem(s):" >&2
+  echo "Codex review returned $finding_count finding(s) — advisory only, they do not block the push:" >&2
   jq -r '.findings[] | "[\(.severity | ascii_upcase)] \(.title)\n\(if .file != "" then "  at \(.file):\(.line)\n" else "" end)  \(.description)\n"' "$report" >&2
   echo "Full review: $report" >&2
 else
-  echo "Codex review passed with zero findings." >&2
+  echo "Codex review returned no findings." >&2
 fi
 
 # Pin the bookmark to the exact commit that was reviewed, not a re-resolved
