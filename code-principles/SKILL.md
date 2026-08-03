@@ -17,8 +17,14 @@ Apply these principles before writing or modifying code. Review the final diff a
 
 ## Docstrings and Comments
 
-1. Add a docstring to complex functions, methods, classes, and interfaces, and to a module's public API. Explain how to use it, and include an example when the usage is not obvious.
-2. Add a comment to explain *why* something is done, or to supply context or detail the code cannot express on its own. Do not restate what the code already makes clear.
+1. Prefer clear names, types, and structure to express intent, and comment only on information the code cannot express directly.
+2. Add docstrings to complex functions, types, interfaces, and non-obvious public APIs.
+3. When relevant, use docstrings to explain purpose, parameters, return values, errors, side effects, ownership, and concurrency requirements.
+4. Use implementation comments to explain design rationale, invariants, and non-obvious boundaries rather than restating the code.
+5. Document key constraints in concurrency, state machines, resource cleanup, retries and timeouts, platform differences, and unsafe code.
+6. Make each TODO or FIXME identify a concrete issue and, when possible, link an issue or state its removal condition.
+7. Update or remove affected comments whenever behavior, names, or policy values change.
+8. Before finishing, verify comments match the final implementation and contain no stale names, values, or behavior descriptions.
 
 ## Abstraction and Duplication
 
