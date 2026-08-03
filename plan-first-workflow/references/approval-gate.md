@@ -11,6 +11,10 @@ then immediately build without giving the user the chance to redirect.
   updates the same draft PR, then wait again. This is still a docs-only push, so it does not go
   through the code review gate (see `references/jj-mechanics.md`).
 
+If review changes user-visible behavior, contracts, configuration, architecture, or document
+placement, revise the plan's documentation-impact section too. Keep current-truth documentation
+unchanged until the approved behavior is actually implemented; see `references/documentation.md`.
+
 ## Then
 
 Once — and only once — the user has explicitly approved the plan, go to

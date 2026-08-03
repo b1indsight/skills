@@ -13,6 +13,10 @@ Before proposing anything, read what already exists:
   from the repo (CI config, `Cargo.toml` / `package.json`, etc.) rather than assuming.
 - Any existing plan or design doc for this feature (projects often keep them under `docs/plan/`
   or similar). Build on it instead of duplicating it.
+- The project's documentation entry points and the current README, architecture, reference,
+  examples, and changelog material closest to the requested behavior. Read
+  `references/documentation.md` and use its impact map rather than assuming every document type
+  must change.
 - The latest remote state, so you plan against the real base: `jj git fetch --remote origin`,
   then confirm the base with `jj status` or `jj log`.
 
@@ -25,11 +29,18 @@ without reading code:
 - The file / module layout and where new code lands
 - Step-by-step implementation order
 - The test strategy (what proves it works)
+- A documentation-impact section that lists the current-truth docs, examples, changelog, indexes,
+  or generators expected to change — or gives a concrete reason no project documentation should
+  change
 
 This produces **a plan only — no product or test code yet.** Put the plan on a new,
 review-friendly named bookmark (`feat/<slug>`, `fix/<slug>`, `docs/<slug>`), push it, and open
 a **draft** PR. The plan is the cheapest artifact to change, and reviewing it before code
 exists is where course-corrections are nearly free.
+
+Apart from the plan itself and any index entry required to make it discoverable, do not update
+current-truth documentation during Planning to present the proposed behavior as already available.
+Synchronize that documentation with actual behavior during Implementation.
 
 This push carries a design doc, not code, so set the bookmark directly — it does **not** go
 through this skill's code review gate. See `references/jj-mechanics.md` for the exact commands.

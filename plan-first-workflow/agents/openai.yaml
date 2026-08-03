@@ -1,6 +1,6 @@
 interface:
   display_name: "Plan-First Feature Workflow"
-  short_description: "Plan and get approval on a draft PR before writing code"
-  default_prompt: "Use $plan-first-workflow to drive this feature: write a plan, open a draft PR, wait for explicit approval, then implement test-first on the same bookmark and PR."
+  short_description: "Plan, approve, implement, and synchronize documentation"
+  default_prompt: "Use $plan-first-workflow to plan this feature, get approval on the draft PR, implement it test-first on the same bookmark and PR, and synchronize affected project documentation before marking it ready."
 policy:
   allow_implicit_invocation: true

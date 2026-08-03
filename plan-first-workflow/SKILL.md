@@ -1,6 +1,6 @@
 ---
 name: plan-first-workflow
-description: The plan-first, one-PR feature workflow — write a plan and get explicit user approval on a draft PR before writing any code, then implement test-first on the same bookmark and PR. Use this whenever a task means building, implementing, or adding a feature or any non-trivial change in a repository that follows this workflow, even when the user just says "implement X" or "start on Y" without mentioning a plan.
+description: The plan-first, one-PR feature workflow — write a plan and get explicit user approval on a draft PR before writing any code, then implement test-first and keep affected project documentation synchronized on the same bookmark and PR. Use this whenever a task means building, implementing, or adding a feature or any non-trivial change in a repository that follows this workflow, even when the user just says "implement X" or "start on Y" without mentioning a plan.
 ---
 
 # Plan-First Feature Workflow
@@ -27,6 +27,14 @@ not a throwaway — it *becomes* the implementation PR. So:
 Keeping plan, review discussion, and code in one thread means anyone can read a feature's
 whole story in one place, and the user gets to approve the shape before effort is sunk.
 
+## Documentation invariant (always holds)
+
+Treat affected project documentation as part of the implementation, not as optional cleanup.
+Assess documentation impact during planning, synchronize current-truth documentation with the
+actual implementation, and validate it before marking the PR ready. If no project documentation
+needs to change, record why in the final handoff. This invariant covers project documentation,
+not source-code comments or API docstrings.
+
 ## Find your current phase
 
 Place yourself by the state of this feature's work, then read the one file that matches:
@@ -42,7 +50,8 @@ The four phases subdivide into the numbered steps the phase files and cross-refe
 
 The command mechanics several phases share — the `jj` flow and this skill's bundled code review
 gate — live in `references/jj-mechanics.md` and `references/review-gate.md`. Read them when a
-phase file sends you there.
+phase file sends you there. Shared documentation-impact and synchronization rules live in
+`references/documentation.md`; read it when a phase file sends you there.
 
 ## Small changes: skip the planning, not the code review
 
@@ -64,3 +73,7 @@ push carries code, not whether the change was planned:
 
 Reserve this for changes that are genuinely small; if something starts small but turns into real
 feature work, fold it back into the full workflow.
+
+Even when a change skips planning, perform the compact documentation-impact and finishing checks
+in `references/documentation.md`. A docs-only change still skips the code review gate; a small code
+change still updates any project documentation its behavior or contracts affect.
