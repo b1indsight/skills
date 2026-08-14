@@ -1,6 +1,6 @@
 ---
 name: plan-first-workflow
-description: The plan-first, one-PR feature workflow — write a plan and get explicit user approval on a draft PR before writing any code, then implement test-first and keep affected project documentation synchronized on the same bookmark and PR. Use this whenever a task means building, implementing, or adding a feature or any non-trivial change in a repository that follows this workflow, even when the user just says "implement X" or "start on Y" without mentioning a plan.
+description: The plan-first, one-PR, stacked-change feature workflow — write a plan and get explicit user approval on a draft PR before writing any code, then implement test-first as an ordered stack of cohesive Jujutsu changes and keep affected project documentation synchronized on the same bookmark and PR. Use this whenever a task means building, implementing, or adding a feature or any non-trivial change in a repository that follows this workflow, even when the user just says "implement X" or "start on Y" without mentioning a plan.
 ---
 
 # Plan-First Feature Workflow
@@ -15,17 +15,46 @@ escape hatch here always apply.
 
 ## Core invariant (always holds)
 
-**One feature = one bookmark = one PR, from plan through merge.**
+**One feature = one bookmark = one PR = one ordered stack of cohesive changes.**
 
 The same named bookmark and the same PR carry a feature its whole life. The plan-only PR is
-not a throwaway — it *becomes* the implementation PR. So:
+not a throwaway — it *becomes* the implementation PR — but the plan change is not a container
+for all later work. So:
 
 - Never open a second PR for the implementation of a feature already planned in a PR.
 - Never merge or close the plan-only PR to "start fresh" for code.
 - Never skip the plan-approval gate and go straight to implementation.
+- Preserve the approved plan as the first change. Start implementation in a new child change.
+- Use a separate change only for an independently explainable, reviewable, and revertible intent.
+  Follow natural functional boundaries instead of turning every plan step or file group into a
+  change, and never target a change count.
+- Keep tests and the documentation made true by a behavior in the same change as that behavior.
+  Do not create deliberately broken intermediate changes merely to separate file types.
+- Before an implementation or fix change's first push, refine it until it is coherent. After it is
+  pushed, classify later work by review context, not by channel: feedback from the user or another
+  reviewer that evaluates the submitted PR must become one or more child `fix` changes, whether it
+  arrives through GitHub or the conversation. A self-discovered, CI, test, or other non-review
+  correction may edit its owning change when it remains within that change's original intent. Give
+  any genuinely new, independent intent its own child change. Pre-approval plan review remains the
+  Phase 3 exception.
+- Do not squash or fold the stack into one oversized change before submission. Point the one
+  bookmark at the stack tip so the one PR exposes the ordered changes.
 
 Keeping plan, review discussion, and code in one thread means anyone can read a feature's
-whole story in one place, and the user gets to approve the shape before effort is sunk.
+whole story in one place. Keeping the implementation as a change stack makes each meaningful
+functional unit independently understandable without fragmenting that story across PRs.
+
+## Starting-point invariant (always holds)
+
+Start a **new** task from the latest fetched remote state of the project's declared base branch,
+not from whatever unrelated change happens to be `@`. Determine the base branch from the
+repository's instructions or configuration — do not hard-code `main` — fetch `origin`, and create
+the plan change directly on `<base>@origin`. Preserve any unrelated working-copy change; do not
+squash, abandon, or rebase it into the new task.
+
+This rule applies only when no plan PR exists for the task. When resuming an existing plan,
+bookmark, or PR, continue from that task's current change stack instead of restarting from the base
+branch.
 
 ## Documentation invariant (always holds)
 
@@ -59,8 +88,8 @@ There are two separate reviews here — the human **plan approval** (Phase 3) an
 **code review gate** (`references/review-gate.md`) — and small changes treat them differently.
 
 Trivial and very small changes skip the *planning ceremony*: no plan doc, no draft PR, no
-plan-approval gate. A one-line fix has no design to approve. Commit directly and open a normal
-(non-draft) PR.
+plan-approval gate. A one-line fix has no design to approve. Create a cohesive change and open a
+normal (non-draft) PR; do not force artificial splitting when the work has only one logical unit.
 
 They do **not** automatically skip the code review gate, because that gate keys off whether a
 push carries code, not whether the change was planned:

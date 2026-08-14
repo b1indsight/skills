@@ -6,9 +6,12 @@ that to the reviewer, and merge.
 ## 5. Validate & mark ready
 
 Run the project's own checks (tests, typecheck / lint, build — whatever `AGENTS.md` defines) and
-re-read the final diff. Mark the draft PR ready **only** when implementation, docs, changelog,
-and validation are all complete. Marking a PR "ready" is a promise to the reviewer that it is
-actually reviewable — don't make that promise early.
+re-read the complete change stack and final diff. Confirm that every change has a precise
+description and a coherent responsibility, that no empty or knowingly broken intermediate change
+remains, and that the bookmark points to the intended tip. Mark the draft PR ready **only** when
+implementation, docs, changelog, and validation are all complete. Do not squash the stack before
+submission or readiness. Marking a PR "ready" is a promise to the reviewer that it is actually
+reviewable — don't make that promise early.
 
 Run the completion checks in `references/documentation.md` before making that promise:
 
@@ -21,8 +24,21 @@ Run the completion checks in `references/documentation.md` before making that pr
 In the final handoff, list the project documents updated and documentation checks run. If none
 changed, state the concrete impact rationale.
 
-If validation forces more code changes, that's another code-bearing push: route it through the
-bundled review gate again, on the same bookmark (see `references/review-gate.md`).
+Because the implementation is already submitted at this phase, classify follow-up work by review
+context and intent, not by channel:
+
+- For a self-discovered validation problem, CI or test failure, or other non-review correction
+  within an existing change's original intent, edit that owning change directly. Revalidate its
+  affected descendants and route the resulting code-bearing submission batch through the bundled
+  review gate once before pushing.
+- For feedback in which the user or another reviewer evaluates the submitted PR, add child `fix`
+  changes instead of editing submitted changes. GitHub reviews, PR comments, and requests in the
+  current conversation all count. Combine tightly coupled requests for one functional concern,
+  and split only requests with independent review or rollback value.
+- For genuinely new independent functionality, add a child change regardless of who requested it.
+
+Use the unified review gate to advance the same bookmark to the resulting stack tip, report its
+suggestions to the user, and push the batch (see `references/review-gate.md`).
 
 ## 6. Merge
 

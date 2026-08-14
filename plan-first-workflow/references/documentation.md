@@ -60,12 +60,15 @@ behavior. Do not treat an old plan as proof of what the product currently does.
 - Link to a single authoritative explanation instead of duplicating details across several files.
 - Keep examples consistent with current commands, schemas, defaults, and output.
 - Avoid claiming that unimplemented or unvalidated behavior is complete.
-- Update or remove stale statements in the same change that invalidates them.
+- Update or remove stale statements in the same change that invalidates them. If a statement
+  describes the cumulative result of several implementation changes, update it in the final
+  change that makes the complete statement true.
 
 During Planning, update the plan and any index entry required to make it discoverable. Do not
 preemptively change current-truth documentation to describe future behavior as already available.
 During Implementation, synchronize affected current-truth documentation with what was actually
-built. During Finishing, validate the complete documentation set against the final diff.
+built, keeping each documentation update with its owning behavior in the change stack. During
+Finishing, validate the complete documentation set against the final stack and diff.
 
 ## Validate before PR readiness
 
