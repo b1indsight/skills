@@ -67,7 +67,7 @@ if ! jj diff -r "$commit_id" --git --context 8 --ignore-working-copy >"$diff_fil
   exit 70
 fi
 
-prompt="Perform an independent code review of the code diff provided in the <stdin> block. Review only that diff; you may read a changed file's immediately surrounding lines to judge a hunk, but do not explore or read unrelated files elsewhere in the repository. Do not modify any files. Report every actionable correctness bug, regression, concurrency issue, error-handling defect, security issue, and material test gap in the diff. Return an empty findings array only when there are no actionable problems. Use an empty file string and line 0 when a finding has no precise source location."
+prompt="Perform an independent security, correctness, and maintainability review of the code diff provided in the <stdin> block. Review only behavior introduced or changed by that diff. You may read changed files and directly affected callers, callees, contracts, configuration, and tests when needed to trace a suspected issue end-to-end, but do not explore unrelated parts of the repository. Do not modify any files. Report every high-confidence actionable correctness bug, regression, concurrency issue, error-handling defect, security vulnerability, feature-gate or internal-only leak, breaking developer-workflow change, and material test gap. Developer-workflow regressions include breaking changes to secrets or environment-variable handling, ports, required setup scripts, and normal build or run procedures. Trace cross-module effects far enough to establish how changed behavior reaches callers or users. Do not report clearly intentional, well-contained behavior changes merely because they break prior behavior; report unintended secondary effects or materially broader impact. Resolve accessible uncertainty before reporting, and do not file conditional speculation about code you can inspect. Calibrate severity to demonstrated impact and reachability; do not inflate hypothetical or low-impact issues. Use these severity levels consistently: critical means a confirmed, realistically reachable issue that can cause data loss or corruption, authentication or authorization bypass, sensitive-data exposure, remote code execution, catastrophic service outage, or broad failure of core functionality with no practical workaround; high means a confirmed major security or correctness regression with substantial but non-catastrophic impact or a practical workaround; medium means a confirmed limited-condition or edge-path defect whose impact is recoverable or readily avoided; low means a smaller but actionable defect or a material maintainability, developer-experience, or test gap. Never assign critical to speculation, file size alone, abstraction quality alone, or a test gap alone. Also report high-confidence material maintainability regressions introduced by the diff, especially accidental branching or state complexity, indirection that does not reduce complexity, a clearly simpler structure that would remove concepts or branches, logic outside its canonical owner, duplication of a canonical helper, unclear type or API boundaries, lost module cohesion, unnecessarily sequential orchestration, or non-atomic related updates. Treat growth of a hand-written source or test file, including crossing 1000 lines, only as evidence of lost cohesion and never as a finding by itself. Do not apply this heuristic to documentation, generated or vendored code, lockfiles, snapshots, or data and fixture files. Prefer a small number of high-conviction actionable findings over style nits or speculative redesigns. For each maintainability finding, explain the complexity introduced and a concrete simpler direction while respecting the change's scope and avoiding unrelated refactors. Return an empty findings array only when there are no actionable problems. Use an empty file string and line 0 when a finding has no precise source location."
 
 echo "Running Codex review for change $change_id ($commit_id)..." >&2
 
@@ -108,14 +108,23 @@ if ! jq -e '.findings | type == "array"' "$report" >/dev/null; then
 fi
 
 finding_count=$(jq '.findings | length' "$report")
+critical_count=$(jq '[.findings[] | select(.severity == "critical")] | length' "$report")
 if (( finding_count > 0 )); then
   echo >&2
-  echo "Codex review found $finding_count advisory problem(s):" >&2
+  echo "Codex review returned $finding_count finding(s):" >&2
   jq -r '.findings[] | "[\(.severity | ascii_upcase)] \(.title)\n\(if .file != "" then "  at \(.file):\(.line)\n" else "" end)  \(.description)\n"' "$report" >&2
-  echo "Full review: $report" >&2
 else
-  echo "Codex review passed with zero findings." >&2
+  echo "Codex review returned no findings." >&2
 fi
+
+if (( critical_count > 0 )); then
+  echo "Review gate failed: $critical_count critical finding(s)." >&2
+  echo "Review report: $report" >&2
+  echo "bookmark was not changed" >&2
+  exit 3
+fi
+
+echo "Review gate passed: no critical findings." >&2
 
 # Pin the bookmark to the exact commit that was reviewed, not a re-resolved
 # revision, so a working-copy snapshot during review cannot retarget it to an

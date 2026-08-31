@@ -1,11 +1,11 @@
 ---
 name: jj-bookmark-review
-description: Run an independent advisory Codex code review before creating, setting, moving, or advancing a Jujutsu bookmark, then set the bookmark after any valid review result. Use whenever a task would execute `jj bookmark create`, `jj bookmark set`, `jj bookmark move`, or `jj bookmark advance` after code generation or modification in this repository.
+description: Run an independent Codex code review before creating, setting, moving, or advancing a Jujutsu bookmark; critical findings block the bookmark, while other valid results allow it. Use whenever a task would execute `jj bookmark create`, `jj bookmark set`, `jj bookmark move`, or `jj bookmark advance` after code generation or modification in this repository.
 ---
 
 # JJ Bookmark Review
 
-Run the bundled advisory review before changing a Jujutsu bookmark. Never execute a
+Run the bundled critical-only blocking review before changing a Jujutsu bookmark. Never execute a
 bookmark-mutating `jj` command directly when this skill applies.
 
 ## Workflow
@@ -13,34 +13,33 @@ bookmark-mutating `jj` command directly when this skill applies.
 1. Finish code generation and snapshot the working copy with `jj status`.
 2. Run `scripts/review-and-bookmark.sh <bookmark> [revision]` with escalated
    sandbox permissions on the first attempt. The revision defaults to `@`.
-3. Let the script run an independent, read-only `codex exec review` and parse its
+3. Let the script run an independent, read-only `codex exec` review and parse its
    structured findings.
-4. Review output is advisory only. If review produces findings, report them to the
-   user, but do not send the change back for mandatory rework (不打回) and do not block
-   the bookmark or the requested push. Only output the review result; findings never
-   gate the bookmark. The user may choose to iterate on the same change, subject to the
-   rework limit below.
-5. If review execution or result parsing fails, treat the review as failed. Stop,
-   report the error, and do not mutate the bookmark.
-6. After any successfully parsed review result, including a non-empty findings
-   array, let the script run `jj bookmark set <bookmark> -r <revision>`.
+4. Report every finding, but use severity only to decide the gate: `critical` findings block the
+   bookmark and requested push; `high`, `medium`, and `low` findings are report-only and do not
+   block them.
+5. If review execution or result parsing fails, treat the review as technically failed. Stop,
+   report the error, and do not mutate the bookmark. A valid review with a `critical` finding is
+   a completed review that failed the gate, not an execution failure; the script exits with
+   status 3 and must not be retried automatically.
+6. When the valid result has no `critical` findings, let the script run
+   `jj bookmark set <bookmark> -r <revision>`. After either a pass or a critical failure, only
+   report the result; do not modify files or rerun review in response to findings.
 
-## Rework limit
+## Rework authorization
 
-This cap targets **findings-driven rework only**, not normal development. A rework pass is
-when you revise the change *solely to satisfy the previous review's findings* and then
-review again. Run **at most 3 findings-driven review passes** on the same change; once
-three have run, stop reviewing, output the final result, and proceed to set the bookmark.
-The cap exists because chasing findings otherwise tends to hunt for problems without limit.
+Review findings never authorize file changes. Findings-driven rework requires a new, explicit
+user request after the findings have been reported. One authorization covers only the requested
+edits and one subsequent review; findings from that review are again report-only and require
+another explicit user request before any further rework.
 
-The cap does **not** restrict reviews of normal forward work. A review prompted by a new
-requested change, continued feature development, or a fix unrelated to the prior findings
-is not rework — it does not count against this cap, and is reviewed as usual even though
-`jj` keeps the same change id across edits to the same commit.
+The original implementation request and instructions such as "finish", "proceed", or "push" do
+not authorize findings-driven rework. Do not ask to rework: report the findings, then continue
+the requested push after a pass or stop after a critical gate failure.
 
-Findings are advisory and output-only: never treat an in-cap review as a gate that forces
-another iteration, and never send the change back for mandatory rework (不打回). Only the
-failures in Workflow step 5 (review execution or schema parsing) block the bookmark.
+Normal forward work requested by the user, continued feature development, and fixes unrelated
+to prior findings are not findings-driven rework. Review them normally when the bookmark next
+moves.
 
 ## Execution permissions
 
@@ -63,8 +62,9 @@ If escalation is declined or the escalated command fails, treat the gate as
 failed and do not mutate the bookmark.
 
 Do not interpret a successful Codex process exit as a valid review until the
-structured `findings` array has been parsed. Findings are advisory; review
-execution and schema validity remain mandatory.
+structured `findings` array has been parsed. Review execution and schema validity remain
+mandatory; after parsing, the script deterministically fails the gate only for `critical`
+findings.
 
 ## Command
 

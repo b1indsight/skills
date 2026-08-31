@@ -23,12 +23,19 @@ Apply these principles before writing or modifying code. Review the final diff a
 ## Abstraction and Duplication
 
 1. Avoid over-abstraction, but don't let duplication spread silently. For a small, local second copy, leave a note linking the two sites instead of abstracting on sight, and extract only once they must change in lockstep, drift, or recur a third time. Keep by-design duplication separate, never merge merely coincidental similarity, and never duplicate large or load-bearing logic. Prefer duplication over the wrong abstraction.
-2. Add a layer of indirection only when it hides a real variation or decision behind a stable boundary and thereby reduces overall complexity; a layer that only forwards calls is not worth it.
-3. Add a parameter, flag, or option only when a caller actually varies it; a knob every caller sets to the same value is dead complexity. Hard-code the value now and introduce the knob when a second, real setting appears.
+2. Add a layer of indirection only when it hides a real variation or decision behind a stable boundary and thereby reduces overall complexity. Prefer direct, explicit code; thin wrappers, pass-through layers, and generic mechanisms that obscure simple assumptions are not worth it.
+3. Add a parameter, flag, mode, or option only when a caller actually varies it; a knob every caller sets to the same value is dead complexity. If special-case conditionals begin to spread, simplify the data or state model so branches disappear instead of moving the same complexity into helpers or dispatchers.
+4. Prefer structural changes that remove concepts, branches, or moving parts over refactors that merely rearrange the same complexity.
+
+## Ownership and Boundaries
+
+1. Keep logic in the package, service, or module that owns the concept, and reuse its canonical helpers. Do not leak feature-specific details into shared paths or introduce bespoke near-duplicates without a clear reason.
+2. Make type and API boundaries express their invariants explicitly. Do not use unnecessary `any`, `unknown`, casts, optional parameters, or silent fallbacks to hide an unclear contract.
+3. Keep modules cohesive. Split a file when a change adds a distinct responsibility or makes the module materially harder to reason about; judge this by cohesion, not a fixed line count.
 
 ## Scope and Consistency
 
-1. Make the smallest change that solves the problem. Don't refactor unrelated code, add speculative flexibility (YAGNI), or widen scope beyond the task.
+1. Make the smallest coherent change that solves the problem. Include tightly coupled restructuring when it materially simplifies the implementation or prevents the change from adding structural debt, but don't refactor unrelated code, add speculative flexibility (YAGNI), or widen scope beyond the task.
 2. Match the surrounding code's conventions, naming, and idioms instead of introducing your own.
 
 ## Error Handling

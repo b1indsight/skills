@@ -57,8 +57,8 @@ They do **not** automatically skip the code review gate, because that gate keys 
 push carries code, not whether the change was planned:
 
 - A small **code** change (a one-line fix, a small tweak) is still a code-bearing push, so set
-  its bookmark through the bundled review gate — it's cheap and advisory, and a one-liner can
-  still be wrong.
+  its bookmark through the bundled review gate — it blocks only confirmed critical findings,
+  and a one-liner can still be wrong.
 - A **non-code** change (a typo, a comment, a doc tweak) has no code to review, so it skips the
   gate too, like any docs-only push.
 

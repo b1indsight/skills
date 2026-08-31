@@ -1,12 +1,12 @@
 # The code review gate
 
-This skill bundles its own advisory review gate. Use it for every **code-bearing** bookmark
+This skill bundles its own critical-only blocking review gate. Use it for every **code-bearing** bookmark
 push (Implementation in Phase 4, and any later code fix in Phase 5) — never run
 `jj bookmark set` directly for those. Docs-only pushes (the plan and its revisions) skip this
 gate; see the table in `references/jj-mechanics.md`.
 
 The gate runs an independent, read-only Codex code review over the reviewed commit's diff, then
-sets the bookmark for you after any valid result.
+sets the bookmark only when a valid result has no `critical` findings.
 
 ## Workflow
 
@@ -14,25 +14,27 @@ sets the bookmark for you after any valid result.
 2. Run `scripts/review-and-bookmark.sh <bookmark> [revision]` with escalated sandbox permissions
    on the first attempt. The revision defaults to `@`.
 3. Let the script run the read-only `codex exec` review and parse its structured findings.
-4. **Findings are advisory only.** If review produces findings, report them to the user, but do
-   not block the bookmark or the push and do not force the change back for mandatory rework
-   (不打回). The user may choose to iterate, subject to the rework cap below.
-5. If review execution or result parsing fails, treat the review as failed. Stop, report the
-   error, and do not mutate the bookmark. These are the *only* conditions that block the push.
-6. After any successfully parsed result — including a non-empty findings array — the script sets
-   `jj bookmark set <bookmark> -r <revision>` for you. Then `jj git push` to update the PR.
+4. Report every finding. A `critical` finding fails the gate and blocks the bookmark and push;
+   `high`, `medium`, and `low` findings are report-only and do not block them.
+5. Review execution or result-parsing failures also fail closed. A valid critical result is a
+   completed review, not an execution failure: the script exits with status 3 and must not be
+   retried automatically.
+6. When the valid result has no `critical` findings, the script sets
+   `jj bookmark set <bookmark> -r <revision>` for you. Then `jj git push` to update the PR. After
+   either outcome, only report the result; do not modify files or rerun review in response to
+   findings.
 
-## Rework limit
+## Rework authorization
 
-This cap targets **findings-driven rework only**, not normal development. A rework pass is when
-you revise the change *solely to satisfy the previous review's findings* and then review again.
-Run **at most 3 findings-driven review passes** on the same change; once three have run, stop
-reviewing, report the final result, and proceed. The cap exists because chasing findings
-otherwise tends to hunt for problems without limit.
+Review findings never authorize file changes. Findings-driven rework requires a new, explicit
+user request after the findings have been reported. One authorization covers only the requested
+edits and one subsequent review; new findings require another explicit request before further
+rework.
 
-The cap does **not** restrict reviews of normal forward work. A review prompted by a new
-requested change, continued development, or a fix unrelated to the prior findings is not rework
-— it doesn't count against the cap, even though `jj` keeps the same change id across edits.
+The original implementation request and instructions such as "finish", "proceed", or "push" do
+not authorize findings-driven rework. Do not ask to rework: report the findings, then continue
+the requested push after a pass or stop after a critical gate failure. Normal forward work
+requested by the user is not findings-driven rework and is reviewed normally.
 
 ## Execution permissions
 
@@ -51,8 +53,9 @@ this narrow reusable prefix rule:
 
 If escalation is declined or the escalated command fails, treat the gate as failed and do not
 mutate the bookmark. Do not interpret a successful Codex process exit as a valid review until the
-structured `findings` array has been parsed — findings are advisory, but review execution and
-schema validity remain mandatory.
+structured `findings` array has been parsed. Review execution and schema validity remain
+mandatory; after parsing, the script deterministically fails the gate only for `critical`
+findings.
 
 ## Command
 

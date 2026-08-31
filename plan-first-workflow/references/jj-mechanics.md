@@ -27,7 +27,7 @@ push safety check fails, `jj git fetch` first, then push again.
 
 ## When to route through the review gate
 
-This skill bundles its own advisory Codex **code** review gate. It applies to pushes that carry
+This skill bundles its own critical-only blocking Codex **code** review gate. It applies to pushes that carry
 code and not to design-doc pushes:
 
 | Push | Gate? | How to set the bookmark |
@@ -37,7 +37,8 @@ code and not to design-doc pushes:
 | Merge / post-merge re-sync (Phase 6) | **No** | no bookmark mutation on code |
 
 For a code-bearing push, don't run `jj bookmark set` yourself. Run
-`scripts/review-and-bookmark.sh <bookmark>`: it reviews the diff, reports advisory findings, and
-sets the bookmark for you. Then run `jj git push` to update the PR. The gate's full operation —
-escalated sandbox permissions, timeout, the findings-driven rework cap, and its fail-closed
-semantics — is documented in `references/review-gate.md`.
+`scripts/review-and-bookmark.sh <bookmark>`: it reviews the diff, reports every finding, and sets
+the bookmark only when no finding is `critical`. A critical result leaves the bookmark unchanged
+and stops the push. The gate's full operation — escalated sandbox permissions, timeout,
+critical-only blocking, explicit rework authorization, and fail-closed semantics — is documented
+in `references/review-gate.md`.

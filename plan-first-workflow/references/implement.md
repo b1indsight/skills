@@ -17,9 +17,9 @@ Instead of running `jj bookmark set` yourself:
 
 1. Finish the code changes in the working-copy change `@`.
 2. Set the bookmark by running the bundled gate — `scripts/review-and-bookmark.sh <bookmark>`.
-   It runs an advisory Codex review over the diff and then sets the bookmark. Report any findings
-   it returns; they're advisory and don't block the push. Read `references/review-gate.md` for the
-   full workflow, the escalated-permission requirement, and the rework cap.
+   It reports every finding and sets the bookmark only when none is `critical`; a critical result
+   stops the push. Findings never authorize automatic rework. Read `references/review-gate.md`
+   for the full workflow, escalated-permission requirement, and explicit rework authorization.
 3. Push the bookmark, which updates the **same** PR.
 
 Push the implementation, updated feature doc, and changelog together, all on the same bookmark.
