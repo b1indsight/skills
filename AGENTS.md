@@ -7,7 +7,6 @@
 - 每个 skill 占一个顶层目录 `<skill-name>/`，其中至少包含一个 `SKILL.md`（带 `name` / `description` frontmatter）。
 - `SKILLS.md` 是自动生成的目录索引，**不要手工编辑**，改动源头后用脚本重建。
 - `scripts/` 存放仓库维护脚本。
-- 提交信息末尾附带：`Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>`。
 
 ## 维护流程
 
