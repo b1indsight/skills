@@ -43,6 +43,8 @@ script_dir=$(cd "$(dirname "$0")" && pwd)
 schema="$script_dir/review-schema.json"
 report="$report_dir/${change_id}-${commit_id:0:12}.json"
 diff_file="$report_dir/${change_id}-${commit_id:0:12}.diff"
+execution_log="$report_dir/${change_id}-${commit_id:0:12}.exec.log"
+umask 077
 mkdir -p "$report_dir"
 
 # Hard wall-clock cap for the review, in seconds. Override with
@@ -78,9 +80,10 @@ echo "Running Codex review for change $change_id ($commit_id)..." >&2
 codex exec \
   --ephemeral \
   --sandbox read-only \
+  --color never \
   --output-schema "$schema" \
   --output-last-message "$report" \
-  "$prompt" <"$diff_file" &
+  "$prompt" <"$diff_file" >"$execution_log" 2>&1 &
 review_pid=$!
 ( sleep "$review_timeout"; kill -TERM "$review_pid" 2>/dev/null ) &
 watchdog_pid=$!
@@ -97,15 +100,22 @@ if (( review_status != 0 )); then
   else
     echo "review gate failed: Codex review did not complete" >&2
   fi
+  echo "Codex execution log: $execution_log" >&2
   echo "bookmark was not changed" >&2
   exit 70
 fi
 
 if ! jq -e '.findings | type == "array"' "$report" >/dev/null; then
   echo "review gate failed: invalid review result in $report" >&2
+  echo "Codex execution log: $execution_log" >&2
   echo "bookmark was not changed" >&2
   exit 65
 fi
+
+# Codex echoes its prompt and stdin diff in the execution transcript. Keep that
+# transcript out of the caller's context, and discard it once the structured
+# report proves the review completed successfully.
+rm -f "$execution_log"
 
 finding_count=$(jq '.findings | length' "$report")
 critical_count=$(jq '[.findings[] | select(.severity == "critical")] | length' "$report")

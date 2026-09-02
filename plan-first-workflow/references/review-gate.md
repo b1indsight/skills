@@ -76,8 +76,9 @@ The review is capped at 300s by default; override with `JJ_REVIEW_TIMEOUT_SECOND
 script with a tool timeout larger than that cap (e.g. 330s) so the script's own watchdog reports
 a clean timeout before the outer call is killed.
 
-The script stores local review reports and the captured diff under `.git/jj-reviews/`. Do not add
-these files to the repository.
+The script stores local review reports and the captured diff under `.git/jj-reviews/`. The nested
+Codex transcript is never forwarded to the caller: it is deleted after a valid result and retained
+there only when review execution or result parsing fails. Do not add these files to the repository.
 
 ## Scope
 
