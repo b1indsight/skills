@@ -50,7 +50,7 @@ mkdir -p "$report_dir"
 # Hard wall-clock cap for the review, in seconds. Override with
 # JJ_REVIEW_TIMEOUT_SECONDS; keep it below the tool timeout the caller gives this
 # script, or that outer limit fires first with a less clear error.
-review_timeout=${JJ_REVIEW_TIMEOUT_SECONDS:-300}
+review_timeout=${JJ_REVIEW_TIMEOUT_SECONDS:-600}
 if ! [[ "$review_timeout" =~ ^[1-9][0-9]*$ ]]; then
   echo "review gate failed: JJ_REVIEW_TIMEOUT_SECONDS must be a positive integer of seconds (got '$review_timeout')" >&2
   echo "bookmark was not changed" >&2
