@@ -6,11 +6,14 @@ that to the reviewer, and merge.
 ## 5. Validate & mark ready
 
 Run the project's own checks (tests, typecheck / lint, build — whatever `AGENTS.md` defines) and
-re-read the final diff. Mark the draft PR ready **only** when implementation, docs, changelog,
-and validation are all complete. Marking a PR "ready" is a promise to the reviewer that it is
-actually reviewable — don't make that promise early.
+re-read the final diff. Check that the feature-flow timeline accounts for substantive changes,
+design decisions, and ablation outcomes, and record final validation and any remaining limitations.
+Push the updated document on the same bookmark before marking the PR ready. Mark the draft PR
+ready **only** when implementation, docs, changelog, and validation are all complete. Marking a
+PR "ready" is a promise to the reviewer that it is actually reviewable — don't make that promise early.
 
-If validation forces more code changes, that's another code-bearing push: route it through the
+If validation forces more code changes, append those changes and their evidence to the timeline
+and rerun affected ablation comparisons. That's another code-bearing push: route it through the
 bundled review gate again, on the same bookmark (see `references/review-gate.md`).
 
 ## 6. Merge

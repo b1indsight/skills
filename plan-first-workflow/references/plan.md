@@ -1,7 +1,7 @@
 # Phase 1–2: Planning
 
 You're here because a feature or non-trivial change was requested and no plan PR exists yet.
-The goal of this phase is a reviewable plan — **not** any product or test code.
+The goal is the initial plan in a feature-flow document — **not** any product or test code.
 
 ## 1. Orient
 
@@ -11,25 +11,26 @@ Before proposing anything, read what already exists:
   leaves out: the base branch name, and the build / test / lint / packaging commands. Those are
   project facts, not workflow facts. If the project doesn't record them, ask the user or infer
   from the repo (CI config, `Cargo.toml` / `package.json`, etc.) rather than assuming.
-- Any existing plan or design doc for this feature (projects often keep them under `docs/plan/`
-  or similar). Build on it instead of duplicating it.
+- Any existing plan, feature-flow, or design doc for this feature. Extend it in place instead
+  of duplicating it; retain its original plan and append the change timeline.
 - The latest remote state, so you plan against the real base: `jj git fetch --remote origin`,
   then confirm the base with `jj status` or `jj log`.
 
-## 2. Write the plan and open a draft PR
+## 2. Fill the feature-flow template and open a draft PR
 
-Write an implementation plan as a design doc — enough for the user to judge the approach
-without reading code:
+For a new document, copy [the outline template](../assets/feature-flow-template.md) and fill its
+initial-plan sections with concrete requirements, choices, affected files, implementation order,
+and validation criteria. Scale detail to the task; mark unresolved questions explicitly and
+explain sections that do not apply instead of inventing content. The plan should let the user
+judge the approach without reading code.
 
-- The technical approach and the main choices behind it
-- The file / module layout and where new code lands
-- Step-by-step implementation order
-- The test strategy (what proves it works)
-- The ablation comparisons and acceptance criteria for added complexity, to run after
-  implementation and before automated code review
+Plan ablation comparisons now, but run them after implementation and before automated code
+review. Leave the timeline empty until an actual requirement update, change, or decision occurs.
+For an existing plan, preserve its text and add the timeline section; fill only missing planning
+details needed to review this work. Follow the document rules in `SKILL.md`.
 
-This produces **a plan only — no product or test code yet.** Put the plan on a new,
-review-friendly named bookmark (`feat/<slug>`, `fix/<slug>`, `docs/<slug>`), push it, and open
+This produces **documentation only — no product or test code yet.** Put the feature-flow document
+on a new, review-friendly named bookmark (`feat/<slug>`, `fix/<slug>`, `docs/<slug>`), push it, and open
 a **draft** PR. The plan is the cheapest artifact to change, and reviewing it before code
 exists is where course-corrections are nearly free.
 

@@ -1,6 +1,6 @@
 ---
 name: plan-first-workflow
-description: The plan-first, one-PR feature workflow — write a plan and get explicit user approval on a draft PR before writing any code, then implement test-first on the same bookmark and PR. Use this whenever a task means building, implementing, or adding a feature or any non-trivial change in a repository that follows this workflow, even when the user just says "implement X" or "start on Y" without mentioning a plan.
+description: The plan-first, one-PR feature workflow — maintain a feature-flow document with an initial plan and a chronological PR change timeline. Get explicit user approval on a draft PR before writing code, then implement test-first and run ablation experiments before code review on the same bookmark and PR. Use for features or non-trivial repository changes that follow this workflow, even when the user does not explicitly request a plan.
 ---
 
 # Plan-First Feature Workflow
@@ -15,7 +15,7 @@ escape hatch here always apply.
 
 ## Core invariant (always holds)
 
-**One feature = one bookmark = one PR, from plan through merge.**
+**One feature = one feature-flow document = one bookmark = one PR, from plan through merge.**
 
 The same named bookmark and the same PR carry a feature its whole life. The plan-only PR is
 not a throwaway — it *becomes* the implementation PR. So:
@@ -26,6 +26,21 @@ not a throwaway — it *becomes* the implementation PR. So:
 
 Keeping plan, review discussion, and code in one thread means anyone can read a feature's
 whole story in one place, and the user gets to approve the shape before effort is sunk.
+
+## Feature-flow document
+
+Start from [the outline template](assets/feature-flow-template.md) and fill it with the task's
+facts. Extend an existing plan in place, preserving its content and path; for new documents,
+follow the project's location and naming conventions, or use `docs/feature-flow/<slug>.md`.
+
+Keep the initial plan as the baseline once shared. Append substantive requirement updates,
+implementation changes, and design decisions to the timeline in occurrence order, oldest first.
+Record each meaningful change batch, not every commit or tool call. Distinguish requested,
+approved, implemented, and deferred work; an entry does not itself authorize implementation.
+Explain what changed and why, including alternatives, trade-offs, and relevant evidence.
+Use known dates and references only; do not invent history when extending an existing plan.
+Update the document alongside changes, before their code review. Apply the initial plan with
+later approved amendments, and identify which earlier decisions an amendment supersedes.
 
 ## Find your current phase
 
