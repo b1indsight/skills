@@ -1,6 +1,6 @@
 interface:
   display_name: "Plan-First Feature Workflow"
   short_description: "Plan, get approval, and track the PR's change timeline"
-  default_prompt: "Use $plan-first-workflow to drive this feature: fill the feature-flow template with an initial plan, open a draft PR, wait for explicit approval, then implement test-first and run ablation experiments before code review. Maintain the same document's chronological timeline of requirement updates, changes, and design trade-offs on the same bookmark and PR."
+  default_prompt: "Use $plan-first-workflow to drive this feature: fill the feature-record template with an initial plan, open a draft PR, wait for explicit approval, then implement test-first and run ablation experiments before code review. Maintain the same document's chronological timeline of requirement updates, changes, and design trade-offs on the same bookmark and PR."
 policy:
   allow_implicit_invocation: true

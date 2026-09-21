@@ -1,6 +1,6 @@
 ---
 name: plan-first-workflow
-description: The plan-first, one-PR feature workflow — maintain a feature-flow document with an initial plan and a chronological PR change timeline. Get explicit user approval on a draft PR before writing code, then implement test-first and run ablation experiments before code review on the same bookmark and PR. Use for features or non-trivial repository changes that follow this workflow, even when the user does not explicitly request a plan.
+description: The plan-first, one-PR feature workflow — maintain a feature-record document with an initial plan and a chronological PR change timeline. Get explicit user approval on a draft PR before writing code, then implement test-first and run ablation experiments before code review on the same bookmark and PR. Use for features or non-trivial repository changes that follow this workflow, even when the user does not explicitly request a plan.
 ---
 
 # Plan-First Feature Workflow
@@ -15,7 +15,7 @@ escape hatch here always apply.
 
 ## Core invariant (always holds)
 
-**One feature = one feature-flow document = one bookmark = one PR, from plan through merge.**
+**One feature = one feature-record document = one bookmark = one PR, from plan through merge.**
 
 The same named bookmark and the same PR carry a feature its whole life. The plan-only PR is
 not a throwaway — it *becomes* the implementation PR. So:
@@ -26,12 +26,13 @@ not a throwaway — it *becomes* the implementation PR. So:
 
 Keeping plan, review discussion, and code in one thread means anyone can read a feature's
 whole story in one place, and the user gets to approve the shape before effort is sunk.
+The PR can contain multiple changes and design decisions, all recorded in the same timeline.
 
-## Feature-flow document
+## Feature-record document
 
-Start from [the outline template](assets/feature-flow-template.md) and fill it with the task's
+Start from [the outline template](assets/feature-record-template.md) and fill it with the task's
 facts. Extend an existing plan in place, preserving its content and path; for new documents,
-follow the project's location and naming conventions, or use `docs/feature-flow/<slug>.md`.
+follow the project's location and naming conventions, or use `docs/feature-record/<slug>.md`.
 The initial plan adapts the [Rust RFC outline](https://github.com/rust-lang/rfcs/blob/master/0000-template.md)
 for proposal review. Material decisions in the timeline use [ADR structure](https://learn.microsoft.com/en-us/azure/well-architected/architect-role/architecture-decision-record):
 context, options, decision/status, and consequences. Routine updates use only relevant fields.

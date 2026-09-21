@@ -10,12 +10,12 @@ and the plan already fixed the shape, so implementation is filling in what both 
 describe. Keep test scope proportional to the change's risk (see the `code-principles` skill if
 the repo provides it).
 
-## Maintain the feature-flow timeline
+## Maintain the feature-record timeline
 
 As each substantive change is made, append its requirement or trigger, actual implementation,
-and design trade-offs to the same feature-flow document. Include affected modules and relevant
+and design trade-offs to the same feature-record document. Include affected modules and relevant
 validation evidence; distinguish completed work from requests or remaining work. Follow the
-entry outline in [the template](../assets/feature-flow-template.md) and the document rules in
+entry outline in [the template](../assets/feature-record-template.md) and the document rules in
 `SKILL.md`. For a material decision, record its context, options, decision/status, and
 consequences; link any earlier decision it supersedes. An accepted decision does not mean its
 implementation or validation is complete. Updating the timeline does not authorize changes
@@ -31,7 +31,7 @@ Change one mechanism at a time; compare coupled mechanisms together when needed.
 Use the plan's acceptance criteria to judge observed behavior, benefits, and costs. Keep a
 mechanism only when evidence shows that a simpler variant misses a requirement or makes a
 meaningful trade-off that justifies the complexity; otherwise simplify the implementation.
-Record the setup, reproducible commands, results, and resulting decisions as a feature-flow
+Record the setup, reproducible commands, results, and resulting decisions as a feature-record
 timeline entry; link larger evidence artifacts instead of copying raw logs into the document.
 A proposed experiment or plausible explanation is not evidence; if a comparison cannot run
 or is inconclusive, record the limitation. Resolve the uncertainty or defer the unsupported
@@ -52,9 +52,9 @@ Instead of running `jj bookmark set` yourself:
    for the full workflow, escalated-permission requirement, and explicit rework authorization.
 3. Push the bookmark, which updates the **same** PR.
 
-Push the implementation, updated feature-flow document, and changelog together, all on the
-same bookmark. Do not create a new bookmark or PR here. See `references/jj-mechanics.md` for the exact command
-sequence and how the review gate slots in.
+Push the implementation, updated feature-record document, and changelog together, all on the
+same bookmark. Do not create a new bookmark or PR here.
+See `references/jj-mechanics.md` for the exact command sequence and how the review gate slots in.
 
 ## Then
 

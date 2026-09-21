@@ -1,4 +1,4 @@
-# [Feature name] — Feature flow
+# [Feature name] — Feature record
 
 **Stage:** Planning
 **PR:** [Link when available]
