@@ -25,6 +25,8 @@ without reading code:
 - The file / module layout and where new code lands
 - Step-by-step implementation order
 - The test strategy (what proves it works)
+- The ablation comparisons and acceptance criteria for added complexity, to run after
+  implementation and before automated code review
 
 This produces **a plan only — no product or test code yet.** Put the plan on a new,
 review-friendly named bookmark (`feat/<slug>`, `fix/<slug>`, `docs/<slug>`), push it, and open
