@@ -1,53 +1,73 @@
 ---
 name: technical-article-visuals
-description: 为技术文章创建或修改示意图与配套概念图标，统一绘图方式、图像风格、绘图原则、视觉规范、工作流程和验收标准。
+description: Create or edit statistical charts, flowcharts, architecture diagrams, structural diagrams, and supporting conceptual icons for technical articles. Load the relevant drawing module and apply shared communication principles, visual specifications, workflow, and acceptance criteria.
 ---
 
-# 技术文章示意图与图标
+# Technical Article Visuals and Icons
 
-当前为初稿，以下六项作为后续逐项讨论的建议基线。具体工具、色板、字体和尺寸参数尚未锁定；执行任务时，以用户的明确要求和已有文章规范为先，其余采用下述默认建议。
+This file defines shared principles, style, workflow, and acceptance criteria for article figures. Modules provide task prompts and specific rules; read them as needed. Explicit user requirements take precedence. Follow existing article conventions and use this skill for unspecified details.
 
-## 1. 绘图方式
+## 1. Modules and Drawing Methods
 
-- 以代码绘制的矢量图为主，默认交付 SVG 源文件和 PNG 成图。结构、文字和连线应能独立修改。
-- AI 生图用于需要插画或材质表现的部分；涉及精确技术关系时，由可控的绘图与排版方式完成。
-- 整套图标使用统一的绘制体系。
+Read the module for the task type. If a task includes several types of figures, apply each relevant module.
 
-## 2. 图像风格
+| Task | Drawing method | Module |
+| --- | --- | --- |
+| Statistical charts for comparisons, trends, distributions, and other data | Plot with Python | [Statistical charts](references/charts.md) |
+| Flowcharts, architecture diagrams, and structural diagrams | Prefer vector graphics displayed in HTML, such as inline SVG | [Flowcharts and architecture diagrams](references/diagrams.md) |
 
-- 默认采用简洁、扁平、克制的技术出版物风格：清晰的层级、充足的留白、少量强调色。
-- 示意图与图标共享视觉语言，同一篇文章沿用同一种风格。
-- 有参考图时，先提取其配色、形状、线条和排版特征，再应用到当前内容。
+- Fill in the module's task prompt with the reader goal, inputs, and deliverables.
+- Use AI image generation for illustrations or textures. Draw precise technical relationships with tools that provide explicit control over geometry and layout.
+- Supporting conceptual icons follow these shared requirements. Use one consistent icon system that matches the surrounding figures.
 
-## 3. 绘图原则
+## 2. Visual Style
 
-- 每张图先明确主要解释的问题，再决定构图。
-- 节点、方向、顺序和层级必须有内容依据；允许简化，但不能改变技术含义。缺失的技术关系需要澄清或明确标注为假设。
-- 通过位置、分组和箭头组织阅读路径，颜色用于辅助表达。
-- 图标优先保证含义清楚和小尺寸辨识度。
+- Design for embedding in article text. Default to a flat style with a white background, light fills, and thin lines. Give the main graphic most of the canvas.
+- Establish three information levels: the graphic conveys data, structure, and relationships; labels, legends, and axes help readers interpret it; the caption supplies context and conditions. Draw attention to the graphic first, with supporting information available as needed.
+- Prefer captions for figure titles, background, data dates, and sources. Keep necessary labels, legends, axis names and units, panel labels, and short titles inside the figure. Omit slide-style headlines, branded headers, date badges, and long footers by default.
+- Always use low-saturation colors, including fills, strokes, group headings, and accents.
 
-## 4. 视觉规范
+## 3. Drawing Principles
 
-- 将风格落实为可复用的参数：画布与边距、字体与字号层级、配色、线宽、箭头、圆角、间距、图标网格。
-- 相同语义使用相同样式，不同关系需要可辨认。
-- 中文、英文与代码标注统一排版；字号和细节密度以文章实际展示尺寸为准。
-- 同一篇文章内复用已选定的参数，修改已有图时延续其规范。
+These principles apply to charts, flowcharts, architecture diagrams, structural diagrams, and icons.
 
-## 5. 工作流程
+1. **Organize around the reader goal**: Establish what readers need to understand, then choose what to retain and which relationships to emphasize. Let that goal guide the visual form and layout.
+2. **Let graphics do the explaining**: Use position, size, shape, grouping, and connections to convey meaning visually. Use text to name, qualify, and supplement.
+3. **Increase effective information density**: Effective information density is the amount of distinct information relevant to the reader goal that a graphic clearly conveys within a given display area. Use space efficiently while preserving readability; added elements should contribute useful facts, relationships, or necessary details.
+4. **Avoid repetition without added value**: Give every visual element a clear role. Once information is adequately conveyed, additional color, marks, text, or decoration needs its own justification.
+5. **Establish a clear visual hierarchy**: Make important information visible first, group related content, and provide an easy reading order. Use emphasis, spacing, and whitespace to reflect importance and relationships.
+6. **Stay consistent while preserving distinctions**: Use consistent visual language for the same meaning and sufficient visual differences for different meanings. Changes in color, lines, and shapes should have a semantic basis.
+7. **Simplify form without changing meaning**: Omit details or compress structure only while preserving the relationships and conditions needed for understanding. Proportions, directions, connections, and groupings must not imply unsupported facts.
 
-1. 理解内容，确定图要解释的问题和使用场景。
-2. 提炼表达目的与技术关系，识别会影响含义的缺失信息。
-3. 选择图形结构，安排阅读顺序与视觉重点。
-4. 应用视觉规范并绘制，保持示意图与配套图标一致。
-5. 渲染成图，按实际展示尺寸检查，修正发现的问题。
-6. 交付源文件和成图，说明必要的假设或尚未完成的检查。
+Reading efficiency concerns how easily readers understand and compare information; assess it separately from information density. Repeated representations of the same information do not count as additional information. Filled area and mark counts do not measure information density; figures conveying the same information can differ in reading efficiency.
 
-普通任务直接完成；只有缺失信息会影响技术含义或核心风格选择时才澄清。修改已有图时，围绕指定内容调整。
+## 4. Visual Specifications
 
-## 6. 验收
+- Default to a white background `#FFFFFF`, dark gray text `#2F343B`, and gray connectors and arrows `#5B6470`. Maintain lightness contrast for text and key outlines.
+- Use soft fills and darker colors for thin lines and small marks. Choose as few colors as the semantics allow, with clear hue or lightness differences between categories that need distinction. Add labels, shapes, or line styles when needed. Group boundaries and supporting icons use the corresponding color family; see the modules for palettes.
+- Use specific object or series names in legends and explain the necessary colors, line styles, and marks. Legend symbols must match their appearance in the figure.
+- Text inside the figure identifies objects, explains relationships, and qualifies meaning. Place background, implementation, and derivation details in the article or caption according to the reader goal.
+- Keep supporting information near the relevant graphic, grouped by meaning and arranged compactly. Align boundaries and baselines, and use consistent spacing so alignment and whitespace support grouping and reading order. Choose alignment to suit the content.
+- Set canvas proportions, margins, and content sizes for the article column width. Maintain the prominence and readability of the main graphic, with moderate size differences between titles and annotations. When space is tight, shorten wording and adjust grouping and layout while preserving necessary meaning.
+- Define reusable parameters for the canvas, margins, fonts, type sizes, line widths, arrows, corner radii, spacing, and icon grids. Keep typography consistent across Chinese, English, and code labels. Reuse these parameters within an article and preserve established conventions when editing existing figures.
 
-- **语义**：术语、节点、关系、方向与原文一致，简化没有造成误导。
-- **表达**：图能回答预定的问题，阅读顺序和视觉重点清楚。
-- **可读性**：实际展示尺寸下文字清晰，图标可辨，没有意外遮挡或裁切。
-- **一致性**：字体、颜色、线条、箭头和图标遵循同一套规范。
-- **交付**：文件正常打开，尺寸与背景符合用途；源文件可以修改；导出成图经过实际查看。
+## 5. Workflow
+
+1. Understand the content and use case, and identify the question readers need answered.
+2. Extract key information, relationships, and necessary conditions. Identify distinct information and repeated representations. Clarify missing technical relationships or explicitly label them as assumptions.
+3. Choose drawing methods and visual structures that serve the reader goal. Assign content to the main graphic, reading aids, and caption. Arrange reading order, emphasis, legends, and alignment for the article column width.
+4. Determine the necessary text, then draw using the visual specifications. Coordinate content sizes, alignment, and semantic colors, keeping figures and supporting icons consistent within the article.
+5. Render and inspect at the intended article display size. Check whether the figure conveys the information required by the reader goal and whether readers can easily understand and compare it. Correct any issues.
+6. Deliver editable sources, viewable outputs, and any required static exports according to the module. Include definitions, conditions, sources, and other details that affect interpretation in the caption. State necessary assumptions and any checks not completed.
+
+Complete routine tasks directly. Ask for clarification only when missing information affects technical meaning or a core style choice. When editing a figure, focus on the requested changes.
+
+## 6. Acceptance Criteria
+
+- **Meaning**: Key information, relationships, and conditions are supported by sources and remain accurate after simplification. Proportions, directions, connections, and groupings imply no unsupported facts. Apply the module's specific semantic checks.
+- **Communication and hierarchy**: The figure answers the intended question and conveys key meaning visually. Readers can easily understand and compare the information. Organization, reading order, and emphasis are clear, with distinct levels for the main graphic, reading aids, and background information.
+- **Information and density**: The figure clearly conveys the distinct information required by the reader goal within a reasonable area. Added elements contribute information, without redundant repetition. Assess reading efficiency separately under "Communication and hierarchy."
+- **Legend and layout**: Legend labels are clear, symbols match the figure, and key visual encodings are understandable. Supporting information is grouped nearby; boundaries, baselines, and spacing are coordinated. Whitespace supports grouping and reading order, and the main graphic occupies an appropriate share of the canvas.
+- **Readability in the article**: At the intended article width, text, thin lines, marks, icons, and legends remain legible without unintended overlap or clipping. Text detail suits the reader goal, and annotations plus the caption provide what readers need to interpret the figure.
+- **Style and consistency**: Fills, strokes, group headings, and accents all use low-saturation colors. Text and key outlines remain clear. The same meaning uses consistent visual encoding, and important differences are easy to distinguish. Fonts, colors, lines, arrows, and icons follow a consistent system.
+- **Delivery**: Required outputs are complete and runnable or viewable. Dimensions and backgrounds suit the intended use, sources are editable, and actual outputs have been inspected. Inspect static exports whenever they are required.
