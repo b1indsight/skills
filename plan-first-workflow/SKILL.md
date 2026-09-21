@@ -32,12 +32,17 @@ whole story in one place, and the user gets to approve the shape before effort i
 Start from [the outline template](assets/feature-flow-template.md) and fill it with the task's
 facts. Extend an existing plan in place, preserving its content and path; for new documents,
 follow the project's location and naming conventions, or use `docs/feature-flow/<slug>.md`.
+The initial plan adapts the [Rust RFC outline](https://github.com/rust-lang/rfcs/blob/master/0000-template.md)
+for proposal review. Material decisions in the timeline use [ADR structure](https://learn.microsoft.com/en-us/azure/well-architected/architect-role/architecture-decision-record):
+context, options, decision/status, and consequences. Routine updates use only relevant fields.
 
 Keep the initial plan as the baseline once shared. Append substantive requirement updates,
 implementation changes, and design decisions to the timeline in occurrence order, oldest first.
 Record each meaningful change batch, not every commit or tool call. Distinguish requested,
 approved, implemented, and deferred work; an entry does not itself authorize implementation.
 Explain what changed and why, including alternatives, trade-offs, and relevant evidence.
+Keep decision status separate from implementation progress. Record later acceptance, rejection,
+or supersession in a new entry linked to the earlier record; preserve its original rationale.
 Use known dates and references only; do not invent history when extending an existing plan.
 Update the document alongside changes, before their code review. Apply the initial plan with
 later approved amendments, and identify which earlier decisions an amendment supersedes.

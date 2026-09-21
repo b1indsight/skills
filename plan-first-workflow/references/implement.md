@@ -16,7 +16,10 @@ As each substantive change is made, append its requirement or trigger, actual im
 and design trade-offs to the same feature-flow document. Include affected modules and relevant
 validation evidence; distinguish completed work from requests or remaining work. Follow the
 entry outline in [the template](../assets/feature-flow-template.md) and the document rules in
-`SKILL.md`. Updating the timeline does not authorize changes outside the approved scope.
+`SKILL.md`. For a material decision, record its context, options, decision/status, and
+consequences; link any earlier decision it supersedes. An accepted decision does not mean its
+implementation or validation is complete. Updating the timeline does not authorize changes
+outside the approved scope.
 
 ## Validate added complexity with ablation experiments
 

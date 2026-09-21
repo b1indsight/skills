@@ -19,10 +19,12 @@ Before proposing anything, read what already exists:
 ## 2. Fill the feature-flow template and open a draft PR
 
 For a new document, copy [the outline template](../assets/feature-flow-template.md) and fill its
-initial-plan sections with concrete requirements, choices, affected files, implementation order,
-and validation criteria. Scale detail to the task; mark unresolved questions explicitly and
-explain sections that do not apply instead of inventing content. The plan should let the user
-judge the approach without reading code.
+RFC-inspired initial-plan sections: motivation and goals, proposed behavior, technical design,
+alternatives and rationale, costs and risks, implementation order, and validation criteria.
+Use concrete examples and explain why the proposed complexity is justified over simpler options.
+Separate questions that block approval from those to resolve during implementation.
+Scale detail to the task; explain sections that do not apply instead of inventing content.
+The plan should let the user judge the approach without reading code.
 
 Plan ablation comparisons now, but run them after implementation and before automated code
 review. Leave the timeline empty until an actual requirement update, change, or decision occurs.
