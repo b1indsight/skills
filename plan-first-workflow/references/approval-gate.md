@@ -12,7 +12,9 @@ then immediately build without giving the user the chance to redirect.
   implementation as pending. Re-push on the **same** bookmark to update the same draft PR,
   then wait for approval. This is still a docs-only push, so it does not go through the code
   review gate (see `references/jj-mechanics.md`).
-- Record explicit plan approval in the timeline, identifying the plan and amendments it covers.
+- Do not add a timeline entry solely for plan approval or permission to start implementation.
+  If approval includes substantive requirement or design changes, record those changes under
+  the document rules in `SKILL.md`.
 
 ## Then
 

@@ -73,6 +73,8 @@ future extensions outside this PR's committed scope.]
 implementation updates, and design decisions across this PR. Preserve the
 initial plan and prior entries; record later corrections in a new entry.
 Do not add an entry for every commit or tool run, or copy the conversation log.
+Omit standalone plan approvals, permission to start implementation, phase transitions,
+and status-only updates. If approval includes substantive amendments, record those amendments.
 Start with no entries; append only events that have actually occurred.
 
 Repeat the scaffold below. Keep sequence numbers stable and increasing.
@@ -80,7 +82,7 @@ Include an event date only when known; otherwise omit it or mark it unknown.
 For material design decisions, fill context, options, decision/status, and
 consequences. Routine updates need only trigger, actual changes, evidence, and
 outcome as relevant; do not invent alternatives or require a separate ADR file.
-Append later decision/status changes with links to earlier entries; do not rewrite
+Append later decisions that change the substantive approach with links to earlier entries; do not rewrite
 the original record. The latest applicable entry determines the current decision.
 Decision acceptance and implementation progress are separate. A status label is
 not approval; cite the actual approval when recording it.
