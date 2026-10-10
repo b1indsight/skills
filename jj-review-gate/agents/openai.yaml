@@ -1,0 +1,6 @@
+interface:
+  display_name: "JJ Review Gate"
+  short_description: "Review a JJ diff and report the gate result"
+  default_prompt: "Use $jj-review-gate to review the target change, report every finding without rework, and return the gate result and reviewed commit ID."
+policy:
+  allow_implicit_invocation: true

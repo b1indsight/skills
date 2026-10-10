@@ -1,6 +1,0 @@
-interface:
-  display_name: "JJ Bookmark Review"
-  short_description: "Block critical findings before moving a JJ bookmark"
-  default_prompt: "Use $jj-bookmark-review to review the target change, report findings without rework, and set its Jujutsu bookmark only when no critical finding is present."
-policy:
-  allow_implicit_invocation: true

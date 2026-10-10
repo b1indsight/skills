@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ $# -lt 1 || $# -gt 2 ]]; then
-  echo "usage: $0 <bookmark> [revision]" >&2
+if [[ $# -gt 1 ]]; then
+  echo "usage: $0 [revision]" >&2
   exit 64
 fi
 
@@ -13,8 +13,7 @@ for command in jj git codex jq; do
   fi
 done
 
-bookmark=$1
-revision=${2:-@}
+revision=${1:-@}
 workspace_root=$(jj root)
 cd "$workspace_root"
 
@@ -23,16 +22,14 @@ jj status >/dev/null
 
 # Resolve the target revision to exactly one commit. A revset that matches
 # zero or several commits would otherwise concatenate ids and corrupt the
-# review prompt, the report path, and the final bookmark target.
+# review prompt and report path.
 revision_commits=$(jj log -r "$revision" --no-graph --limit 2 -T 'commit_id ++ "\n"')
 if [[ -z "$revision_commits" ]]; then
   echo "review gate failed: revision '$revision' resolved to no commits" >&2
-  echo "bookmark was not changed" >&2
   exit 65
 fi
 if [[ "$revision_commits" == *$'\n'* ]]; then
   echo "review gate failed: revision '$revision' must resolve to exactly one commit" >&2
-  echo "bookmark was not changed" >&2
   exit 65
 fi
 commit_id=$revision_commits
@@ -50,10 +47,9 @@ mkdir -p "$report_dir"
 # Hard wall-clock cap for the review, in seconds. Override with
 # JJ_REVIEW_TIMEOUT_SECONDS; keep it below the tool timeout the caller gives this
 # script, or that outer limit fires first with a less clear error.
-review_timeout=${JJ_REVIEW_TIMEOUT_SECONDS:-180}
+review_timeout=${JJ_REVIEW_TIMEOUT_SECONDS:-600}
 if ! [[ "$review_timeout" =~ ^[1-9][0-9]*$ ]]; then
   echo "review gate failed: JJ_REVIEW_TIMEOUT_SECONDS must be a positive integer of seconds (got '$review_timeout')" >&2
-  echo "bookmark was not changed" >&2
   exit 64
 fi
 
@@ -65,7 +61,6 @@ fi
 # snapshot that could diverge from the pinned commit.
 if ! jj diff -r "$commit_id" --git --context 8 --ignore-working-copy >"$diff_file"; then
   echo "review gate failed: could not produce diff for $commit_id" >&2
-  echo "bookmark was not changed" >&2
   exit 70
 fi
 
@@ -101,14 +96,12 @@ if (( review_status != 0 )); then
     echo "review gate failed: Codex review did not complete" >&2
   fi
   echo "Codex execution log: $execution_log" >&2
-  echo "bookmark was not changed" >&2
   exit 70
 fi
 
 if ! jq -e '.findings | type == "array"' "$report" >/dev/null; then
   echo "review gate failed: invalid review result in $report" >&2
   echo "Codex execution log: $execution_log" >&2
-  echo "bookmark was not changed" >&2
   exit 65
 fi
 
@@ -130,14 +123,13 @@ fi
 if (( critical_count > 0 )); then
   echo "Review gate failed: $critical_count critical finding(s)." >&2
   echo "Review report: $report" >&2
-  echo "bookmark was not changed" >&2
   exit 3
 fi
 
 echo "Review gate passed: no critical findings." >&2
 
-# Pin the bookmark to the exact commit that was reviewed, not a re-resolved
-# revision, so a working-copy snapshot during review cannot retarget it to an
-# unreviewed commit. --ignore-working-copy avoids taking a fresh snapshot here.
-jj bookmark set "$bookmark" -r "$commit_id" --ignore-working-copy
 echo "Review report: $report" >&2
+
+# Return the exact reviewed commit so callers can act on it without re-resolving @.
+# Diagnostics and findings stay on stderr; failed reviews produce no stdout.
+printf '%s\n' "$commit_id"

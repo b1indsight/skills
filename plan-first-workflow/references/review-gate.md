@@ -1,87 +1,26 @@
-# The code review gate
+# Review within the plan-first workflow
 
-This skill bundles its own critical-only blocking review gate. Use it for every **code-bearing** bookmark
-push (Implementation in Phase 4, and any later code fix in Phase 5) — never run
-`jj bookmark set` directly for those. Docs-only pushes (the plan and its revisions) skip this
-gate; see the table in [jj-mechanics.md](jj-mechanics.md).
+Use the standalone [jj-review-gate skill](../../jj-review-gate/SKILL.md) for every
+code-bearing bookmark push: implementation in Phase 4 and later code fixes in Phase 5.
+Read its entrypoint and [execution procedure](../../jj-review-gate/references/review.md)
+before running the gate. It owns the review criteria, result handling, execution permissions,
+timeout, and findings-driven rework rules.
 
-The gate runs an independent, read-only Codex code review over the reviewed commit's diff, then
-sets the bookmark only when a valid result has no `critical` findings.
+Docs-only pushes, including the initial plan and its revisions, skip the gate; see
+[the routing table](jj-mechanics.md). Keep the same bookmark and PR throughout the feature.
+After the gate passes, the workflow sets the bookmark to the returned commit ID and pushes it
+to update the existing PR. A critical result or execution failure stops both operations.
 
-## Workflow
-
-1. Finish the code changes and snapshot the working copy with `jj status`.
-2. Run `scripts/review-and-bookmark.sh <bookmark> [revision]` with escalated sandbox permissions
-   on the first attempt. The revision defaults to `@`.
-3. Let the script run the read-only `codex exec` review and parse its structured findings.
-4. Report every finding. A `critical` finding fails the gate and blocks the bookmark and push;
-   `high`, `medium`, and `low` findings are report-only and do not block them.
-5. Review execution or result-parsing failures also fail closed. A valid critical result is a
-   completed review, not an execution failure: the script exits with status 3 and must not be
-   retried automatically.
-6. When the valid result has no `critical` findings, the script sets
-   `jj bookmark set <bookmark> -r <revision>` for you. Then `jj git push` to update the PR. After
-   either outcome, only report the result; do not modify files or rerun review in response to
-   findings.
-
-## Rework authorization
-
-Review findings never authorize file changes. Findings-driven rework requires a new, explicit
-user request after the findings have been reported. One authorization covers only the requested
-edits and one subsequent review; new findings require another explicit request before further
-rework.
-
-The original implementation request and instructions such as "finish", "proceed", or "push" do
-not authorize findings-driven rework. Do not ask to rework: report the findings, then continue
-the requested push after a pass or stop after a critical gate failure. Normal forward work
-requested by the user is not findings-driven rework and is reviewed normally.
-
-## Execution permissions
-
-The script launches a nested `codex exec` process. That process needs network access and write
-access to `$CODEX_HOME` to initialize its app-server client, even though the review itself uses a
-read-only sandbox. A normal workspace sandbox blocks that initialization.
-
-Use `exec_command` with `sandbox_permissions: "require_escalated"` on the first attempt — do not
-run it in the workspace sandbox first. Ask for approval with a concise justification such as
-"Allow the independent Codex review gate to access its runtime state and network?" and request
-this narrow reusable prefix rule:
-
-```text
-[".agents/skills/plan-first-workflow/scripts/review-and-bookmark.sh"]
-```
-
-If escalation is declined or the escalated command fails, treat the gate as failed and do not
-mutate the bookmark. Do not interpret a successful Codex process exit as a valid review until the
-structured `findings` array has been parsed. Review execution and schema validity remain
-mandatory; after parsing, the script deterministically fails the gate only for `critical`
-findings.
-
-## Command
-
-From the repository root:
+For projects linking this workflow from the shared skills repository, the workflow command
+path forwards to the sibling `jj-review-gate` implementation:
 
 ```bash
-.agents/skills/plan-first-workflow/scripts/review-and-bookmark.sh <bookmark> [revision]
+.agents/skills/plan-first-workflow/scripts/review.sh [revision]
 ```
 
-Examples:
+The sibling `jj-review-gate/` directory must be present alongside `plan-first-workflow/` in
+the source repository. To discover and invoke the review skill independently in a project,
+also link `jj-review-gate` into that project's `.agents/skills/`.
 
-```bash
-.agents/skills/plan-first-workflow/scripts/review-and-bookmark.sh feat/windows-overlay @
-.agents/skills/plan-first-workflow/scripts/review-and-bookmark.sh fix/hotkey-timeout @-
-```
-
-The review is capped at 600s by default; override with `JJ_REVIEW_TIMEOUT_SECONDS`. Invoke the
-script with a tool timeout larger than that cap (e.g. 660s) so the script's own watchdog reports
-a clean timeout before the outer call is killed.
-
-The script stores local review reports and the captured diff under `.git/jj-reviews/`. The nested
-Codex transcript is never forwarded to the caller: it is deleted after a valid result and retained
-there only when review execution or result parsing fails. Do not add these files to the repository.
-
-## Scope
-
-The script handles the normal single-target flow: `jj bookmark set NAME -r REVISION`. If a
-bookmark operation can't be represented that way, stop and explain that the gate script must be
-extended; do not fall back to an unreviewed bookmark command.
+The review script does not change bookmarks. Capture its stdout on a successful run, then use
+that exact commit ID for the bookmark update. See [the command sequence](jj-mechanics.md).

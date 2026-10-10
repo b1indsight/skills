@@ -16,7 +16,7 @@ PR "ready" is a promise to the reviewer that it is actually reviewable — don't
 
 If validation forces more code changes, append those changes and their evidence to the timeline
 and rerun affected ablation comparisons. That's another code-bearing push: route it through the
-bundled review gate again, on the same bookmark (see [review-gate.md](review-gate.md)).
+shared review gate again, on the same bookmark (see [review-gate.md](review-gate.md)).
 
 ## 6. Merge
 

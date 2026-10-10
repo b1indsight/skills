@@ -30,6 +30,18 @@ ln -s ~/personal_work/skills/<skill-name> .agents/skills/<skill-name>
 
 链接后，对本仓库中该 skill 的任何修改都会自动在所有引用它的项目中生效。
 
+## 项目工作流与独立审查
+
+`plan-first-workflow` 负责规划、审批、实现和 PR 收尾，其审查阶段调用独立的
+[`jj-review-gate`](jj-review-gate/SKILL.md)。审查规则、脚本和 schema 只在后者维护。
+两个目录保持同级；工作流的 `scripts/review.sh [revision]` 转发到共享实现。
+审查脚本只返回结果和审查通过的 commit ID；设置 bookmark 和推送由工作流负责。
+原 `review-and-bookmark.sh <bookmark> [revision]` 已移除，手工调用应改用新接口。
+
+`jj-review-gate` 替代原来的 `jj-bookmark-review`，也可以单独链接到项目的
+`.agents/skills/` 使用，无需规划文档或 PR。原先引用 `jj-bookmark-review` 的项目应
+将 skill 软链接和指令中的名称更新为 `jj-review-gate`。
+
 ## 新增 skill
 
 1. 在本仓库新建一个 `<skill-name>/` 目录并编写 `SKILL.md`。
