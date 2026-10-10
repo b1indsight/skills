@@ -3,12 +3,12 @@
 You're here because the user has explicitly approved the plan. Now build it — following the
 approved plan and its approved amendments, on the **same** bookmark and PR.
 
-## Build test-first
+## Choose validation and build test-first when needed
 
-Write the tests first, then implement until they pass — the tests pin the intended behavior,
-and the plan already fixed the shape, so implementation is filling in what both already
-describe. Keep test scope proportional to the change's risk (see the `code-principles` skill if
-the repo provides it).
+First decide whether new tests are needed based on the change's risk, complexity, and existing
+coverage (see the `code-principles` skill if the repo provides it). When new tests are needed,
+write them first, then implement until they pass. Otherwise, validate the change with existing
+checks or targeted verification proportional to the risk. Run the project's required checks.
 
 ## Maintain the feature-record timeline
 
