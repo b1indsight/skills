@@ -11,6 +11,7 @@
 ```
 skills/
 ├── README.md
+├── scripts/            # 索引生成、项目安装和诊断
 └── <skill-name>/
     └── SKILL.md        # 单个 skill 的定义
 ```
@@ -19,16 +20,41 @@ skills/
 
 ## 在其他项目中使用
 
-在目标项目中，把需要的 skill 软链接到该项目统一的 skill 目录 `.agents/skills/` 下（各项目都约定使用这个目录）。
+在本仓库运行安装脚本，将指定 skill 链接到目标项目的 `.agents/skills/` 下。
 
 ```bash
-# 假设本仓库位于 ~/personal_work/skills
-# 在目标项目根目录执行：
-mkdir -p .agents/skills
-ln -s ~/personal_work/skills/<skill-name> .agents/skills/<skill-name>
+./scripts/skills.sh install "/path/to/project" plan-first-workflow
+# 一次安装多个 skill：
+./scripts/skills.sh install "/path/to/project" code-principles jj-review-gate
 ```
 
+安装脚本使用本仓库的绝对路径。重复安装会保留已有的同源链接，并修复指定 skill
+的断链；遇到真实文件、真实目录或指向其他来源的有效链接时，会报错并保留原内容。
+一次安装多个 skill 时，脚本先检查所有待安装项再写入，预检失败不会安装其中一部分。
+目标项目根路径可以是软链接；项目内的 `.agents` 和 `.agents/skills` 自身不能是软链接，
+以免安装位置跳出目标项目。
+
 链接后，对本仓库中该 skill 的任何修改都会自动在所有引用它的项目中生效。
+
+## 检查项目链接与依赖
+
+`doctor` 只检查，不修改文件：
+
+```bash
+# 检查已安装的本仓库 skill，以及安装目录中的所有断链：
+./scripts/skills.sh doctor "/path/to/project"
+# 确认指定 skill 已安装，并检查其链接和依赖：
+./scripts/skills.sh doctor "/path/to/project" plan-first-workflow jj-review-gate
+```
+
+不指定 skill 时，仅忽略本仓库没有同名目录的健康外部 skill；本仓库已有同名目录，
+但项目链接指向其他有效来源时仍会报错。不会要求项目安装本仓库的所有 skill。
+显式指定 skill 后，未安装的 skill 会被报告为缺失。
+
+跨 skill 依赖记录在 [`scripts/skill-dependencies.txt`](scripts/skill-dependencies.txt)，
+每行格式为 `owner dependency`，名称对应本仓库的 skill 目录。安装和诊断时，脚本
+检查依赖目录的 `SKILL.md` 是否可读；依赖从本仓库同级目录读取，脚本不会自动
+为项目增加依赖链接。目前 `plan-first-workflow` 依赖 `jj-review-gate`。
 
 ## 项目工作流与独立审查
 
@@ -45,9 +71,10 @@ ln -s ~/personal_work/skills/<skill-name> .agents/skills/<skill-name>
 ## 新增 skill
 
 1. 在本仓库新建一个 `<skill-name>/` 目录并编写 `SKILL.md`。
-2. 运行 `./scripts/gen-skills-index.sh` 刷新目录索引 [SKILLS.md](SKILLS.md)。
-3. 提交并推送到远端。
-4. 在需要用到它的项目里按上面的方式软链接。
+2. 若实际使用其他 skill 的文件或脚本，在 `scripts/skill-dependencies.txt` 中登记依赖。
+3. 运行 `./scripts/gen-skills-index.sh` 刷新目录索引 [SKILLS.md](SKILLS.md)。
+4. 提交并推送到远端。
+5. 在需要用到它的项目里运行 `./scripts/skills.sh install "/path/to/project" <skill-name>`。
 
 ## 说明
 

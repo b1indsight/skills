@@ -1,0 +1,3 @@
+# Source skill dependencies: one owner/dependency pair per line.
+# These require sibling source definitions, not additional project symlinks.
+plan-first-workflow jj-review-gate
