@@ -29,7 +29,7 @@ The plan should let the user judge the approach without reading code.
 Plan ablation comparisons now, but run them after implementation and before automated code
 review. Leave the timeline empty until an actual requirement update, change, or decision occurs.
 For an existing plan, preserve its text and add the timeline section; fill only missing planning
-details needed to review this work. Follow the document rules in `SKILL.md`.
+details needed to review this work. Follow the [document rules](feature-record.md).
 
 This produces **documentation only — no product or test code yet.** Put the feature-record document
 on a new, review-friendly named bookmark (`feat/<slug>`, `fix/<slug>`, `docs/<slug>`), push it, and open
@@ -37,8 +37,8 @@ a **draft** PR. The plan is the cheapest artifact to change, and reviewing it be
 exists is where course-corrections are nearly free.
 
 This push carries a design doc, not code, so set the bookmark directly — it does **not** go
-through this skill's code review gate. See `references/jj-mechanics.md` for the exact commands.
+through this skill's code review gate. See [jj-mechanics.md](jj-mechanics.md) for the exact commands.
 
 ## Then
 
-Go to `references/approval-gate.md` and stop. Do not start writing tests or implementation code.
+Go to [approval-gate.md](approval-gate.md) and stop. Do not start writing tests or implementation code.

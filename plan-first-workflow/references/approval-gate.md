@@ -6,17 +6,17 @@ then immediately build without giving the user the chance to redirect.
 
 - **Do not write tests or implementation code** until the user **explicitly** approves the plan.
 - Approval arrives as a review or comment. It is **not** a signal to merge or close the plan PR
-  — that PR stays open and becomes the implementation PR (see the core invariant in `SKILL.md`).
+  — that PR stays open and becomes the implementation PR (see the core invariant in [SKILL.md](../SKILL.md)).
 - If the user asks for changes, append the updated requirements, proposed plan amendments,
   and design trade-offs to the feature-record timeline. Preserve the initial plan and label
   implementation as pending. Re-push on the **same** bookmark to update the same draft PR,
   then wait for approval. This is still a docs-only push, so it does not go through the code
-  review gate (see `references/jj-mechanics.md`).
+  review gate (see [jj-mechanics.md](jj-mechanics.md)).
 - Do not add a timeline entry solely for plan approval or permission to start implementation.
   If approval includes substantive requirement or design changes, record those changes under
-  the document rules in `SKILL.md`.
+  the [document rules](feature-record.md).
 
 ## Then
 
 Once — and only once — the user has explicitly approved the plan, go to
-`references/implement.md`.
+[implement.md](implement.md).

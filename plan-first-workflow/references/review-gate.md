@@ -3,7 +3,7 @@
 This skill bundles its own critical-only blocking review gate. Use it for every **code-bearing** bookmark
 push (Implementation in Phase 4, and any later code fix in Phase 5) — never run
 `jj bookmark set` directly for those. Docs-only pushes (the plan and its revisions) skip this
-gate; see the table in `references/jj-mechanics.md`.
+gate; see the table in [jj-mechanics.md](jj-mechanics.md).
 
 The gate runs an independent, read-only Codex code review over the reviewed commit's diff, then
 sets the bookmark only when a valid result has no `critical` findings.

@@ -41,4 +41,4 @@ For a code-bearing push, don't run `jj bookmark set` yourself. Run
 the bookmark only when no finding is `critical`. A critical result leaves the bookmark unchanged
 and stops the push. The gate's full operation — escalated sandbox permissions, timeout,
 critical-only blocking, explicit rework authorization, and fail-closed semantics — is documented
-in `references/review-gate.md`.
+in [review-gate.md](review-gate.md).

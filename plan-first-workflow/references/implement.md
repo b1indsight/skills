@@ -15,8 +15,8 @@ the repo provides it).
 As each substantive change is made, append its requirement or trigger, actual implementation,
 and design trade-offs to the same feature-record document. Include affected modules and relevant
 validation evidence; distinguish completed work from requests or remaining work. Follow the
-entry outline in [the template](../assets/feature-record-template.md) and the document rules in
-`SKILL.md`. For a material decision, record its context, options, decision/status, and
+entry outline in [the template](../assets/feature-record-template.md) and the
+[document rules](feature-record.md). For a material decision, record its context, options, decision/status, and
 consequences; link any earlier decision it supersedes. An accepted decision does not mean its
 implementation or validation is complete. Updating the timeline does not authorize changes
 outside the approved scope.
@@ -48,14 +48,14 @@ Instead of running `jj bookmark set` yourself:
 1. Finish the code changes in the working-copy change `@`.
 2. Set the bookmark by running the bundled gate — `scripts/review-and-bookmark.sh <bookmark>`.
    It reports every finding and sets the bookmark only when none is `critical`; a critical result
-   stops the push. Findings never authorize automatic rework. Read `references/review-gate.md`
+   stops the push. Findings never authorize automatic rework. Read [review-gate.md](review-gate.md)
    for the full workflow, escalated-permission requirement, and explicit rework authorization.
 3. Push the bookmark, which updates the **same** PR.
 
 Push the implementation, updated feature-record document, and changelog together, all on the
 same bookmark. Do not create a new bookmark or PR here.
-See `references/jj-mechanics.md` for the exact command sequence and how the review gate slots in.
+See [jj-mechanics.md](jj-mechanics.md) for the exact command sequence and how the review gate slots in.
 
 ## Then
 
-Once the implementation is pushed, go to `references/finish.md`.
+Once the implementation is pushed, go to [finish.md](finish.md).

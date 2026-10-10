@@ -5,6 +5,8 @@ that to the reviewer, and merge.
 
 ## 5. Validate & mark ready
 
+Read [the document rules](feature-record.md) before updating the feature record.
+
 Run the project's own checks (tests, typecheck / lint, build — whatever `AGENTS.md` defines) and
 re-read the final diff. Check that the feature-record timeline accounts for substantive changes,
 design decisions, and ablation outcomes, and record final validation and any remaining limitations.
@@ -14,7 +16,7 @@ PR "ready" is a promise to the reviewer that it is actually reviewable — don't
 
 If validation forces more code changes, append those changes and their evidence to the timeline
 and rerun affected ablation comparisons. That's another code-bearing push: route it through the
-bundled review gate again, on the same bookmark (see `references/review-gate.md`).
+bundled review gate again, on the same bookmark (see [review-gate.md](review-gate.md)).
 
 ## 6. Merge
 
