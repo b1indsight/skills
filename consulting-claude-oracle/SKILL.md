@@ -1,19 +1,21 @@
 ---
 name: consulting-claude-oracle
-description: Routes Oracle consultations through the local Claude Code CLI using Claude Opus 5.5. Use when Oracle advice is requested or needed for debugging or design decisions.
+description: Uses the local Claude Code CLI with Claude Opus 5.5 for Oracle consultations, plan generation, and tasks explicitly assigned to Claude. Use whenever a plan needs to be generated, the user explicitly asks Claude to handle a task, or Oracle advice is requested or needed for debugging or design decisions.
 ---
 
 # Claude Code Oracle
 
-Route Oracle consultations through the local Claude Code CLI, pinned to Opus 5.5 with the `claude-opus-5-5` model ID.
+Route Oracle consultations, plan generation, and tasks explicitly assigned to Claude through the local Claude Code CLI, pinned to Opus 5.5 with the `claude-opus-5-5` model ID.
 
 ## Triggers and Boundaries
 
 - Load this skill and follow this workflow for every Oracle consultation, including advice, debugging consultations, and design decisions.
-- Code reviews alone do not trigger this skill, including self-reviews and diff, commit, or PR reviews. An explicit request to use Oracle for a review still triggers it as an Oracle consultation.
+- Load this skill whenever a task requires generating a plan, including implementation or design plans, and use this workflow to draft it from explicitly supplied materials.
+- Explicit requests for Claude to handle a task also trigger this skill, including requests such as “交给 Claude 做”, “让 Claude 生成 plan”, or “用 Claude 写技术文档”. Use the bundled CLI workflow; do not automatically substitute a Claude thread.
+- Code reviews alone do not trigger this skill, including self-reviews and diff, commit, or PR reviews. An explicit request to use Oracle or Claude for a review still triggers it.
 - Do not introduce extra routine consultations merely because this skill exists.
 - This skill defines a CLI consultation workflow; it does not change the backend of the built-in Amp `oracle` tool. If higher-priority instructions require the built-in tool, follow them and explain the boundary rather than claiming this skill has taken over.
-- Claude Code provides advice only. The main agent gathers evidence, verifies the advice, changes code, and runs validation.
+- Claude Code returns analysis, plans, or other requested draft content from supplied materials only. The main agent gathers evidence, verifies returned content, writes files, changes code, and runs validation.
 - Do not automatically fall back to another model, the built-in Oracle, or a paid API. Report failures. Do not automatically upgrade the CLI or change authentication or billing settings.
 
 ## Least Privilege and Information Boundaries
@@ -36,6 +38,8 @@ Route Oracle consultations through the local Claude Code CLI, pinned to Opus 5.5
 ## Execution
 
 Use `shell_command` to run the script from the skill directory. Replace the placeholder below with the actual absolute path of the loaded skill, and set `workdir` to an existing directory. The script switches to a temporary empty directory itself.
+
+Adapt the goal and output requirements to the requested deliverable. For plans or documents, request the draft itself with source citations, assumptions, unknowns, and validation criteria.
 
 ```bash
 bash /ABSOLUTE/SKILL/DIRECTORY/scripts/consult.sh <<'ORACLE_INPUT'
