@@ -18,5 +18,7 @@ Keep decision status separate from implementation progress. Record later decisio
 the substantive approach in a new entry linked to the earlier record; preserve its original
 rationale. A status-only update does not warrant a timeline entry.
 Use known dates and references only; do not invent history when extending an existing plan.
+Do not record volatile project statistics such as test counts; avoid figures that would
+require frequent updates just to stay current.
 Update the document alongside changes, before their code review. Apply the initial plan with
 later approved amendments, and identify which earlier decisions an amendment supersedes.
