@@ -1,4 +1,4 @@
-# Phase 3: Approval gate — STOP
+# Phase 2: Approval gate — STOP
 
 You're here because a draft PR carrying the plan is open and the user hasn't approved it yet.
 This is a hard stop, and it exists for one reason: planning first is worthless if you plan and

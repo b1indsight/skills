@@ -21,10 +21,10 @@ phase needs them.
 
 | Current state | Read |
 | --- | --- |
-| A feature or non-trivial change is requested; no plan PR exists | [Planning (1–2)](references/plan.md) |
-| The draft plan PR is open; explicit approval is pending | [Approval gate (3)](references/approval-gate.md) |
-| The user approved the plan; implementation is in progress | [Implementation (4)](references/implement.md) |
-| Implementation is pushed; validation, readiness, or merge remains | [Finishing (5–6)](references/finish.md) |
+| A feature or non-trivial change is requested; no plan PR exists | [Planning (1)](references/plan.md) |
+| The draft plan PR is open; explicit approval is pending | [Approval gate (2)](references/approval-gate.md) |
+| The user approved the plan; implementation is in progress | [Implementation (3)](references/implement.md) |
+| Implementation is pushed; validation, readiness, or merge remains | [Finishing (4–5)](references/finish.md) |
 
 ## Supporting references
 

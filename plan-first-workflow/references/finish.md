@@ -1,9 +1,9 @@
-# Phase 5–6: Finishing
+# Phase 4–5: Finishing
 
 You're here because the code is pushed on the PR. What's left is to prove it's ready, promise
 that to the reviewer, and merge.
 
-## 5. Validate & mark ready
+## 4. Validate & mark ready
 
 Read [the document rules](feature-record.md) before updating the feature record.
 
@@ -18,7 +18,7 @@ If validation forces more code changes, append those changes and their evidence 
 and rerun affected ablation comparisons. That's another code-bearing push: route it through the
 shared review gate again, on the same bookmark (see [review-gate.md](review-gate.md)).
 
-## 6. Merge
+## 5. Merge
 
 Merge only after final review of the **completed implementation**, never at the plan stage.
 After merge, re-sync (`jj git fetch --remote origin`) and rebase any remaining work onto the new

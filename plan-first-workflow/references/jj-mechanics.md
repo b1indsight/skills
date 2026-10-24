@@ -32,9 +32,9 @@ This workflow uses the standalone `jj-review-gate` skill for critical-only block
 
 | Push | Gate? | How to set the bookmark |
 | --- | --- | --- |
-| Plan draft (Phase 2) and plan revisions (Phase 3) — docs only | **No** | `jj bookmark set <bookmark> -r @` directly |
-| Implementation (Phase 4) and any later code fix (Phase 5) | **Yes** | after a pass, set it to the returned reviewed commit ID |
-| Merge / post-merge re-sync (Phase 6) | **No** | no bookmark mutation on code |
+| Plan draft (Phase 1) and plan revisions (Phase 2) — docs only | **No** | `jj bookmark set <bookmark> -r @` directly |
+| Implementation (Phase 3) and any later code fix (Phase 4) | **Yes** | after a pass, set it to the returned reviewed commit ID |
+| Merge / post-merge re-sync (Phase 5) | **No** | no bookmark mutation on code |
 
 For a code-bearing push, first run the shared review gate. It returns the exact reviewed commit
 ID on stdout only after a pass. The workflow then sets and pushes the bookmark:

@@ -1,7 +1,7 @@
 # Review within the plan-first workflow
 
 Use the standalone [jj-review-gate skill](../../jj-review-gate/SKILL.md) for every
-code-bearing bookmark push: implementation in Phase 4 and later code fixes in Phase 5.
+code-bearing bookmark push: implementation in Phase 3 and later code fixes in Phase 4.
 Read its entrypoint and [execution procedure](../../jj-review-gate/references/review.md)
 before running the gate. It owns the review criteria, result handling, execution permissions,
 timeout, and findings-driven rework rules.

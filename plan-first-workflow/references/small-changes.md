@@ -1,6 +1,6 @@
 # Small changes
 
-There are two separate reviews here — the human **plan approval** (Phase 3) and the automated
+There are two separate reviews here — the human **plan approval** (Phase 2) and the automated
 **code review gate** ([review-gate.md](review-gate.md)) — and small changes treat them differently.
 
 Trivial and very small changes skip the *planning ceremony*: no plan doc, no draft PR, no

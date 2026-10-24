@@ -1,4 +1,4 @@
-# Phase 4: Implementation
+# Phase 3: Implementation
 
 You're here because the user has explicitly approved the plan. Now build it — following the
 approved plan and its approved amendments, on the **same** bookmark and PR.
