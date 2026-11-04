@@ -22,7 +22,7 @@ case "${0##*/}" in
     exit
     ;;
   git)
-    if [[ "$1" == "rev-parse" && "$2" == "--git-dir" ]]; then
+    if [[ "$1" == "rev-parse" && ( "$2" == "--git-dir" || "$2" == "--absolute-git-dir" ) ]]; then
       printf '%s\n' "$FAKE_GIT_DIR"
       exit
     fi
@@ -49,12 +49,21 @@ case "${0##*/}" in
     case "${FAKE_REVIEW_KIND:-none}" in
       none) printf '{"summary":"ok","findings":[]}\n' >"$report" ;;
       invalid) printf '{"summary":"invalid","findings":null}\n' >"$report" ;;
-      high|critical)
+      high|critical|incomplete-functionality|incomplete-complexity|missing-review)
+        severity=high
+        [[ "$FAKE_REVIEW_KIND" != "critical" ]] || severity=critical
         printf '{"summary":"issue","findings":[{"severity":"%s","title":"Confirmed defect","description":"A reachable regression","file":"src/main.rs","line":1}]}\n' \
-          "$FAKE_REVIEW_KIND" >"$report"
+          "$severity" >"$report"
         ;;
       *) exit 2 ;;
     esac
+    result=$(jq '.reviews = {functionality_security: "complete", complexity: "complete"}' "$report")
+    case "${FAKE_REVIEW_KIND:-none}" in
+      incomplete-functionality) result=$(jq '.reviews.functionality_security = "incomplete"' <<<"$result") ;;
+      incomplete-complexity) result=$(jq '.reviews.complexity = "incomplete"' <<<"$result") ;;
+      missing-review) result=$(jq 'del(.reviews.complexity)' <<<"$result") ;;
+    esac
+    printf '%s\n' "$result" >"$report"
     exit
     ;;
 esac
@@ -90,7 +99,7 @@ stderr_file="$temporary_root/stderr"
 
 for gate in "${gates[@]}"; do
   # Review must never move a bookmark, including on successful gate results.
-  for kind in none high critical invalid execution-failure; do
+  for kind in none high critical invalid execution-failure incomplete-functionality incomplete-complexity missing-review; do
     : >"$FAKE_BOOKMARK_LOG"
     review_revision=@-
     expected_revision=@-
@@ -119,8 +128,8 @@ for gate in "${gates[@]}"; do
 
     case "$kind" in
       none|high)
-        [[ "$result_status" == "0" ]]
-        [[ "$result_stdout" == "$FAKE_COMMIT_ID" ]]
+        [[ "$result_status" == "0" ]] || exit 1
+        [[ "$result_stdout" == "$FAKE_COMMIT_ID" ]] || exit 1
         [[ -f "$artifact_prefix.json" ]]
         [[ ! -e "$artifact_prefix.exec.log" ]]
         if [[ "$kind" == "high" ]]; then
@@ -143,6 +152,15 @@ for gate in "${gates[@]}"; do
         [[ -z "$result_stdout" ]]
         [[ "$result_output" == *"Codex execution log: $artifact_prefix.exec.log"* ]]
         [[ -f "$artifact_prefix.exec.log" ]]
+        ;;
+      incomplete-functionality|incomplete-complexity|missing-review)
+        # A partial review must report its findings without authorizing publication.
+        # Explicit exits also enforce these assertions on macOS Bash 3.2.
+        [[ "$result_status" == "65" ]] || exit 1
+        [[ -z "$result_stdout" ]] || exit 1
+        [[ "$result_output" == *"[HIGH] Confirmed defect"* ]] || exit 1
+        [[ "$result_output" == *"both functionality/security and complexity reviews must complete"* ]] || exit 1
+        [[ -f "$artifact_prefix.exec.log" ]] || exit 1
         ;;
     esac
   done

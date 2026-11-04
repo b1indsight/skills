@@ -1,6 +1,6 @@
 ---
 name: jj-review-gate
-description: Run an independent Codex review of a Jujutsu commit diff and return a critical-only gate result. Use before publishing code changes or when a review gate is requested. Docs-only changes skip the gate.
+description: Review a Jujutsu commit diff with two parallel Codex subagents for functionality/security and complexity, returning a critical-only gate result. Use before publishing code changes or when a review gate is requested. Docs-only changes skip the gate.
 ---
 
 # JJ Review Gate
@@ -9,9 +9,22 @@ This skill works independently or as the review subskill of `plan-first-workflow
 Before reviewing code changes, read [the execution procedure](references/review.md) and run
 `scripts/review.sh [revision]`. Docs-only changes skip the gate.
 
+## Parallel review
+
+One read-only Codex coordinator launches exactly two child agents before waiting for either:
+
+- **Functionality and security:** correctness, regressions, concurrency, error handling,
+  security, developer-workflow breakage, and material test gaps.
+- **Complexity:** branching and state complexity, unnecessary indirection, ownership and API
+  boundaries, duplication, cohesion, and concrete in-scope simplifications.
+
+Both agents read the same captured commit diff. The coordinator consolidates their findings;
+it does not replace either review with its own. Both child reviews must complete.
+
 ## Gate rules
 
-- Review execution and structured-result parsing must succeed for a valid gate result.
+- Review execution, both child reviews, and structured-result parsing must succeed for a valid
+  gate result. A missing or incomplete child review fails closed.
 - Report every finding. Critical findings fail the gate; high, medium, and low findings
   are report-only.
 - The gate reviews and reports; it does not set bookmarks, push changes, or modify source files.

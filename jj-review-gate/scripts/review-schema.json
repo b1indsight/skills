@@ -5,6 +5,21 @@
     "summary": {
       "type": "string"
     },
+    "reviews": {
+      "type": "object",
+      "properties": {
+        "functionality_security": {
+          "type": "string",
+          "enum": ["complete", "incomplete"]
+        },
+        "complexity": {
+          "type": "string",
+          "enum": ["complete", "incomplete"]
+        }
+      },
+      "required": ["functionality_security", "complexity"],
+      "additionalProperties": false
+    },
     "findings": {
       "type": "array",
       "items": {
@@ -33,6 +48,6 @@
       }
     }
   },
-  "required": ["summary", "findings"],
+  "required": ["summary", "reviews", "findings"],
   "additionalProperties": false
 }
