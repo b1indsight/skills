@@ -1,0 +1,19 @@
+OpenAI Codex
+Copyright 2025 OpenAI
+
+This project includes code derived from [Ratatui](https://github.com/ratatui/ratatui), licensed under the MIT license.
+Copyright (c) 2016-2022 Florian Dehau
+Copyright (c) 2023-2025 The Ratatui Developers
+
+The upstream notices above are retained verbatim. No Ratatui UI code is used by
+this skill.
+
+Modifications in searching-web-with-codex (2026):
+Translated the standalone web.run request/client path from Rust to Python.
+Added a command-line interface, read-only ChatGPT file authentication, bounded
+responses, redirect refusal, tests, and skill instructions. Omitted local
+conversation history, telemetry, token refresh, and unrelated web commands.
+
+Source: https://github.com/openai/codex
+Revision: 092d3acd6bec3e3a14bdc7e7a2810ab628ab759d (rust-v0.162.1)
+See reference/source.md for source paths and scope.
