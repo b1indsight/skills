@@ -1,6 +1,6 @@
 ---
 name: conversation-style
-description: Applies the user's wording preferences to all user-facing communication. Use on every turn, starting with the first progress update, question, or reply, without waiting for an explicit request.
+description: Applies the user's wording preferences when communicating with them. Use when asking for clarification, sharing progress, or answering the user.
 ---
 
 # 表达与对话
