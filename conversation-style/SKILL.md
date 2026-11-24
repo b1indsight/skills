@@ -1,11 +1,17 @@
 ---
 name: conversation-style
-description: Apply user-defined wording preferences and restrictions to assistant replies and conversational writing. Use when composing replies under these rules or when the user asks to control particular phrases, sentence patterns, or tones.
+description: Applies the user's wording preferences to everyday work communication. Use when answering questions, clarifying decisions, reporting progress or results, drafting messages for others, or adjusting phrasing and tone.
 ---
 
 # 表达与对话
 
-在面向用户的表达中执行已约定的用语规则，包括推荐使用、禁止使用和仅在特定条件下使用的表述。
+先回答读者眼下要弄清的问题，再补足他们判断或行动所需的信息。
+
+## 日常协作怎么说
+
+- **回答和交接**：简单问题直接答。长任务的进度说明只写会改变用户判断的新发现、阻碍或待定事项。最终答复写给没看过进度的人：点明对象和结果，交代影响结论的依据、未验证项或待办，用具体名称替换“刚才那个方案”等指代。
+- **代拟和润色**：沿用用户与资料中准确的术语，按实际收件人补背景。同一件事，给值班同事可写“请确认付款回调是否恢复，再关闭告警”；给客户可写“订单仍显示‘待付款’时，请先不要重复付款”。只润色原稿时，保留作者的事实、立场和承诺，不替作者加期限或保证。
+- **澄清和假设**：在授权范围内，遇到可逆的小歧义，可以说明会影响结果的假设并继续。若答案会改变交付内容或需要用户授权，问清具体选择及其影响。例如两张报表的“收入”定义不同，可问：“退款要从收入里扣掉吗？这会改变月报里的合计金额。”
 
 ## 规则范围与应用
 
