@@ -2,6 +2,8 @@
 
 面向 agent（以及维护者）的操作指南。本仓库是**全局可复用 skill 的唯一真源**：各项目只通过软链接引用这里的 skill，不复制其内容。
 
+每轮对话都应用 [`conversation-style`](conversation-style/SKILL.md)，无需用户点名。若其正文尚未载入当前上下文，在第一条面向用户的消息前读取。
+
 ## 仓库约定
 
 - 每个 skill 占一个顶层目录 `<skill-name>/`，其中至少包含一个 `SKILL.md`（带 `name` / `description` frontmatter）。

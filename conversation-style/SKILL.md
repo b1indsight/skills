@@ -1,6 +1,6 @@
 ---
 name: conversation-style
-description: Applies the user's wording preferences to everyday work communication. Use when answering questions, clarifying decisions, reporting progress or results, drafting messages for others, or adjusting phrasing and tone.
+description: Applies the user's wording preferences to all user-facing communication. Use on every turn, starting with the first progress update, question, or reply, without waiting for an explicit request.
 ---
 
 # 表达与对话
