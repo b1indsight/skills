@@ -1,64 +1,11 @@
-# Phase 1: Planning
+# Phase 1: Prepare the first draft PR commit
 
-You're here because a feature or non-trivial change was requested and no plan PR exists yet.
-The goal is the initial plan in a feature-record document — **not** any product or test code.
+Fetch the latest base with `jj git fetch --remote origin` and confirm it with `jj log`. Read project guidance for checks and documentation locations. Read the affected modules, their callers, the current architecture and feature flows, and any existing plan for this feature.
 
-## 1. Rules to follow
+Put the following together in **the first commit** on the feature bookmark:
 
-- **Project-specific facts.** The base branch name and the build / test / lint / packaging
-  commands are project facts, not workflow facts. This workflow deliberately leaves them to the
-  project. If the project doesn't record them, ask the user or infer from the repo.
-- **Existing documents.** Extend any existing plan, feature-record, or design doc for this
-  feature in place instead of duplicating it; retain its original plan and append the change
-  timeline.
-- **Latest remote state.** Plan against the latest remote state so you use the real base.
-- **Reviewable plan.** Use concrete examples and explain why the proposed complexity is justified
-  over simpler options. Separate questions that block approval from those to resolve during
-  implementation. Scale detail to the task; explain sections that do not apply instead of
-  inventing content. The plan should let the user judge the approach without reading code.
-- **Feature-record history.** Leave the timeline empty until an actual requirement update,
-  change, or decision occurs. For an existing plan, preserve its text and add the timeline
-  section; fill only missing planning details needed to review this work. Follow the
-  [document rules](feature-record.md).
-- **Documentation only.** This produces **documentation only — no product or test code yet.**
-- **Docs-only publication.** This push carries a design doc, not code, so set the bookmark
-  directly — it does **not** go through this skill's code review gate. See
-  [jj-mechanics.md](jj-mechanics.md) for the exact commands.
+1. **Plan.** Extend the existing feature record in place, or start from the [template](../assets/feature-record-template.md). Follow the [document rules](feature-record.md) for architecture changes, cross-module contracts and demos, and rejected alternatives. Link the affected end-to-end flow; if it is new, describe the proposed trigger, steps and observable result so a reviewer can try it.
+2. **One executable acceptance test.** Write or extend one scenario that demonstrates the whole change, from its trigger through the affected modules to the observable result. Assert what distinguishes the requested change from the baseline, not calls to private helpers. For an algorithm-only change, exercise the existing interface with an input or measurable criterion that exposes the intended difference. Run the test, give its command and actual result in the draft PR, and distinguish an expected failure due to missing behavior from a broken setup. Do not skip the test or implement behavior to turn it green before approval.
+3. **Definitions in source, when the contract changes.** Add or update just the cross-module method signatures and field definitions used by the demo and test. Use declarations without bodies where possible; where the language needs a body, use an explicit unimplemented stub for the new behavior. Preserve existing behavior on unaffected paths. Do not scaffold private helpers. For an algorithm update with no cross-module interface change, omit this part entirely.
 
-## 2. Execution steps
-
-1. **Fetch updates and confirm the base.** Fetch the latest remote state with
-   `jj git fetch --remote origin`, then confirm the base with `jj status` or `jj log`.
-2. **Read project guidance.** Read the project's own `AGENTS.md` / `CLAUDE.md` for the base
-   branch name and the build / test / lint / packaging commands. If the project doesn't record
-   them, ask the user or infer from the repo (CI config, `Cargo.toml` / `package.json`, etc.)
-   rather than assuming.
-3. **Read existing feature documents.** Read any existing plan, feature-record, or design doc
-   for this feature. Extend it in place instead of duplicating it; retain its original plan
-   and append the change timeline.
-4. **Fill the feature-record template.** For a new document, copy
-   [the outline template](../assets/feature-record-template.md) and fill its RFC-inspired
-   initial-plan sections: motivation and goals, proposed behavior, technical design,
-   alternatives and rationale, costs and risks, implementation order, and validation criteria.
-   Plan ablation comparisons now, but run them after implementation and before automated code
-   review.
-5. **Open a draft PR.** Put the feature-record document on a new, review-friendly named bookmark
-   (`feat/<slug>`, `fix/<slug>`, `docs/<slug>`), push it, and open a **draft** PR. The plan is the
-   cheapest artifact to change, and reviewing it before code exists is where course-corrections
-   are nearly free.
-
-## 3. Checks to run
-
-- [ ] Have you synchronized to the correct base state?
-- [ ] Have you read the relevant documentation and fully understood the current code structure,
-  related definitions, and existing workflows?
-- [ ] Have you accurately understood the facts and asked the user about all uncertainties
-  and decisions?
-- [ ] Does the feature record contain a reviewable initial plan and the planned validation
-  and ablation comparisons?
-- [ ] Is the feature-record document published in a docs-only draft PR on the feature's bookmark,
-  with no product or test code included?
-
-## Then
-
-Go to [approval-gate.md](approval-gate.md) and stop. Do not start writing tests or implementation code.
+Describe this commit, run the [code review gate](review-gate.md), and push the reviewed commit on the named bookmark. Open one **draft** PR for the plan, test, and any declarations; the expected failing test is not merge-ready. Continue to [approval](approval-gate.md) before filling in the implementation.

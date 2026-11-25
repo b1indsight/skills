@@ -8,14 +8,12 @@ that to the reviewer, and merge.
 Read [the document rules](feature-record.md) before updating the feature record.
 
 Run the project's own checks (tests, typecheck / lint, build — whatever `AGENTS.md` defines) and
-re-read the final diff. Check that the feature-record timeline accounts for substantive changes,
-design decisions, and ablation outcomes, and record final validation and any remaining limitations.
+re-read the final diff. Follow the affected feature walkthrough from its trigger to its observable result. Verify the acceptance test passes against the completed behavior, no draft stubs remain, and the module map and flow match what ships. Report validation, ablation outcomes, and remaining limitations in the PR; check that design amendments are in the timeline.
 Push the updated document on the same bookmark before marking the PR ready. Mark the draft PR
 ready **only** when implementation, docs, changelog, and validation are all complete. Marking a
 PR "ready" is a promise to the reviewer that it is actually reviewable — don't make that promise early.
 
-If validation forces more code changes, append those changes and their evidence to the timeline
-and rerun affected ablation comparisons. That's another code-bearing push: route it through the
+If validation forces more code changes, update the timeline for design amendments and rerun affected ablation comparisons. That's another code-bearing push: route it through the
 shared review gate again, on the same bookmark (see [review-gate.md](review-gate.md)).
 
 ## 5. Merge

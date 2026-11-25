@@ -15,15 +15,9 @@ onto it and pushing that bookmark:
 jj git fetch --remote origin                          # start from the latest base
 # ... edit files in the working-copy change @ ...
 jj describe -m "type(scope): concise summary"         # describe (never leave blank)
-jj bookmark set <bookmark> -r @                        # point the bookmark at @  (but see gate below)
-jj git push --remote origin --bookmark <bookmark>      # push (creates/updates the branch)
-gh pr create --draft --base <base> --head <bookmark>   # Planning: open the draft PR
-gh pr ready <pr-number>                                # Finishing: after implementation only
 ```
 
-Reuse the **same** bookmark while iterating on one review thread. After adding child changes
-with `jj new`, move the bookmark forward (`jj bookmark set <bookmark> -r @`) and re-push. If a
-push safety check fails, `jj git fetch` first, then push again.
+Use the routing table below to publish each change. Open the draft PR after the reviewed first commit is pushed. Add child changes with `jj new` and reuse the same bookmark and PR. If a push safety check fails, fetch and inspect the remote state before retrying.
 
 ## When to route through the review gate
 
@@ -32,7 +26,8 @@ This workflow uses the standalone `jj-review-gate` skill for critical-only block
 
 | Push | Gate? | How to set the bookmark |
 | --- | --- | --- |
-| Plan draft (Phase 1) and plan revisions (Phase 2) — docs only | **No** | `jj bookmark set <bookmark> -r @` directly |
+| First draft commit (Phase 1) and revisions changing tests or declarations | **Yes** | after a pass, set it to the returned reviewed commit ID |
+| Revisions changing only documentation | **No** | `jj bookmark set <bookmark> -r @` directly |
 | Implementation (Phase 3) and any later code fix (Phase 4) | **Yes** | after a pass, set it to the returned reviewed commit ID |
 | Merge / post-merge re-sync (Phase 5) | **No** | no bookmark mutation on code |
 

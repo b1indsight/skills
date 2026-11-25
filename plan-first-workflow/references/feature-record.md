@@ -1,24 +1,12 @@
-# Feature-record document
+# Project documents and the feature record
 
-Start from [the outline template](../assets/feature-record-template.md) and fill it with the task's
-facts. Extend an existing plan in place, preserving its content and path; for new documents,
-follow the project's location and naming conventions, or use `docs/feature-record/<slug>.md`.
-The initial plan adapts the [Rust RFC outline](https://github.com/rust-lang/rfcs/blob/master/0000-template.md)
-for proposal review. Material decisions in the timeline use [ADR structure](https://learn.microsoft.com/en-us/azure/well-architected/architect-role/architecture-decision-record):
-context, options, decision/status, and consequences. Routine updates use only relevant fields.
+Maintain two long-lived documentation directories in the target project. Use its existing equivalents when present; otherwise use `docs/ARCHITECTURE/` and `docs/功能流程/`.
 
-Keep the initial plan as the baseline once shared. Append substantive requirement updates,
-implementation changes, and design decisions to the timeline in occurrence order, oldest first.
-Record each meaningful change batch, not every commit or tool call. Omit standalone process
-events such as plan approval, permission to begin implementation, or phase transitions. If
-approval includes substantive amendments, record those amendments instead. Distinguish requested,
-approved, implemented, and deferred work; an entry does not itself authorize implementation.
-Explain what changed and why, including alternatives, trade-offs, and relevant evidence.
-Keep decision status separate from implementation progress. Record later decisions that change
-the substantive approach in a new entry linked to the earlier record; preserve its original
-rationale. A status-only update does not warrant a timeline entry.
-Use known dates and references only; do not invent history when extending an existing plan.
-Do not record volatile project statistics such as test counts; avoid figures that would
-require frequent updates just to stay current.
-Update the document alongside changes, before their code review. Apply the initial plan with
-later approved amendments, and identify which earlier decisions an amendment supersedes.
+- **ARCHITECTURE** describes the system down to modules: their responsibilities, dependencies, and the data or control that crosses their boundaries. Stop at the module boundary. Update the affected pages when this map changes.
+- **功能流程** describes a complete feature as an acceptance walkthrough: starting conditions, triggering actor or event, operations in order, and observable results. Include failure or retry outcomes when they change what the user sees. A reviewer must be able to follow the steps and tell whether the feature works. Link the executable acceptance test; update the walkthrough when the flow changes.
+
+These directories describe the project across PRs. The feature record describes one proposed change. Extend an existing plan at its original path and preserve its initial text; otherwise use the project's convention or `docs/feature-record/<slug>.md`. Link the affected project pages rather than copying the module map or maintaining a second signature list.
+
+Use the [template](../assets/feature-record-template.md) for the initial plan and for each substantive amendment. Both use the same three subjects: the architecture delta if any, new or changed cross-module interfaces with a caller demo and observable behavior, and alternatives rejected with the reason. Omit inapplicable subjects; do not invent a contract or a rejected option. Keep private algorithms, helper inventories, and per-file implementation steps out of both sections.
+
+Keep the shared initial plan as the baseline. Start with an empty timeline; append substantive changes oldest first, distinguishing proposed amendments from approved ones. Link the earlier decision when superseding it. Do not log approvals alone, commits, tool runs, or routine implementation progress. Keep test commands, results, and remaining validation limits with the PR evidence.

@@ -1,22 +1,7 @@
-# Phase 2: Approval gate — STOP
+# Phase 2: Review the draft before implementing
 
-You're here because a draft PR carrying the plan is open and the user hasn't approved it yet.
-This is a hard stop, and it exists for one reason: planning first is worthless if you plan and
-then immediately build without giving the user the chance to redirect.
+Wait for explicit user approval of the plan, acceptance scenario, and any cross-module declarations. A passing automated review is not user approval. Keep the draft PR open; do not fill the stubs or implement the algorithm yet.
 
-- **Do not write tests or implementation code** until the user **explicitly** approves the plan.
-- Approval arrives as a review or comment. It is **not** a signal to merge or close the plan PR
-  — that PR stays open and becomes the implementation PR (see the core invariant in [SKILL.md](../SKILL.md)).
-- If the user asks for changes, append the updated requirements, proposed plan amendments,
-  and design trade-offs to the feature-record timeline. Preserve the initial plan and label
-  implementation as pending. Re-push on the **same** bookmark to update the same draft PR,
-  then wait for approval. This is still a docs-only push, so it does not go through the code
-  review gate (see [jj-mechanics.md](jj-mechanics.md)).
-- Do not add a timeline entry solely for plan approval or permission to start implementation.
-  If approval includes substantive requirement or design changes, record those changes under
-  the [document rules](feature-record.md).
+If review changes the proposal, append the amendment to the [timeline](feature-record.md), revise the test and declarations to match, and update the same bookmark and draft PR. Route the push by [what it contains](jj-mechanics.md): changed tests or declarations need the gate; a prose-only amendment does not. Wait for approval of the revised scope. Approval alone does not need a timeline entry.
 
-## Then
-
-Once — and only once — the user has explicitly approved the plan, go to
-[implement.md](implement.md).
+After approval, continue to [implementation](implement.md) on the same PR.
