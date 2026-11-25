@@ -1,11 +1,11 @@
 # Review within the plan-first workflow
 
-Skip automated code review for the [first planning commit](plan.md): it specifies the behavior with a test and optional declarations but does not implement it. Use the standalone [jj-review-gate skill](../../jj-review-gate/SKILL.md) for all other code-bearing pushes, including revisions to the draft test or declarations.
+Skip automated code review for the [first planning commit](plan.md): it contains the plan and acceptance test only. Use the standalone [jj-review-gate skill](../../jj-review-gate/SKILL.md) for all other code-bearing pushes, including revisions to the draft test.
 Read its entrypoint and [execution procedure](../../jj-review-gate/references/review.md)
 before running the gate. It owns the review criteria, result handling, execution permissions,
 timeout, and findings-driven rework rules.
 
-Revisions changing only prose skip the gate; see
+Documentation-only revisions, including edits to interface sketches, skip the gate; see
 [the routing table](jj-mechanics.md). Keep the same bookmark and PR throughout the feature.
 After the gate passes, the workflow sets the bookmark to the returned commit ID and pushes it
 to update the existing PR. A critical result or execution failure stops both operations.

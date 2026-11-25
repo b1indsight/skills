@@ -6,7 +6,7 @@
 ## 1. Initial plan
 
 - **Architecture change:** [If module responsibilities, dependencies, or data flow change, give the before → after and link the affected architecture page.]
-- **Cross-module interface, demo, and behavior:** [Name the producer and caller, link the new or changed declaration, and show a short caller example with its expected result. Include error or retry behavior when relevant.]
+- **Cross-module interface, demo, and behavior:** [Name the producer and caller. Sketch the proposed signatures and fields here, then show a short caller example with its expected result. Include error or retry behavior when relevant.]
 - **Rejected alternatives and reasons:** [Which other approach was considered? What requirement or trade-off ruled it out?]
 
 ## 2. PR change timeline

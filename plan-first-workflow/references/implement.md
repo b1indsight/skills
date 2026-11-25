@@ -5,7 +5,7 @@ approved plan and its approved amendments, on the **same** bookmark and PR.
 
 ## Implement the approved behavior
 
-Start a child change after the draft commit. Fill the declared methods or update the existing algorithm. Keep caller-visible guarantees beside the declarations and comment on non-obvious implementation choices where they are made. Run the first-commit acceptance test against the real implementation; add other tests only for risks it does not cover. Run the project's required checks.
+Start a child change after the draft commit. Apply the approved interface changes together with their implementations and affected callers, or update the existing algorithm. Keep caller-visible guarantees beside the declarations and comment on non-obvious implementation choices where they are made. Run the first-commit acceptance test against the real implementation; add other tests only for risks it does not cover. Run the project's required checks.
 
 Treat the first-commit assertions as the acceptance baseline. Do not remove, skip, or weaken them to make the test pass. If a requirement changes, record which assertion would change and why in the feature-record timeline, and obtain explicit user approval before changing it.
 

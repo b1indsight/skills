@@ -26,8 +26,8 @@ This workflow uses the standalone `jj-review-gate` skill for critical-only block
 
 | Push | Gate? | How to set the bookmark |
 | --- | --- | --- |
-| First planning commit (Phase 1): plan, acceptance test, optional declarations; no behavior implementation | **No** | `jj bookmark set <bookmark> -r @` directly, then `jj git push --remote origin --bookmark <bookmark>` |
-| Draft revisions changing tests or declarations | **Yes** | after a pass, set it to the returned reviewed commit ID |
+| First planning commit (Phase 1): plan and acceptance test only | **No** | `jj bookmark set <bookmark> -r @` directly, then `jj git push --remote origin --bookmark <bookmark>` |
+| Draft revisions changing the acceptance test | **Yes** | after a pass, set it to the returned reviewed commit ID |
 | Revisions changing only documentation | **No** | `jj bookmark set <bookmark> -r @` directly |
 | Implementation (Phase 3) and any later code fix (Phase 4) | **Yes** | after a pass, set it to the returned reviewed commit ID |
 | Merge / post-merge re-sync (Phase 5) | **No** | no bookmark mutation on code |
