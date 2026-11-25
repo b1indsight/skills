@@ -8,16 +8,24 @@ Jujutsu (`jj`) is the primary local interface. Git branches exist only as the re
 artifacts created from `jj` bookmarks — do not start feature work with `git checkout -b`, and do
 not use `git commit` / ad-hoc `git push` for review branches.
 
-Every reviewable change needs a non-empty description and is shared by moving a named bookmark
-onto it and pushing that bookmark:
+For the documentation-only draft, set `base` to the project's base branch and `bookmark` to the feature bookmark. Use the project's required GitHub CLI wrapper in place of `gh` where applicable.
 
 ```bash
-jj git fetch --remote origin                          # start from the latest base
-# ... edit files in the working-copy change @ ...
-jj describe -m "type(scope): concise summary"         # describe (never leave blank)
+jj git fetch --remote origin
+# Prepare the plan on the confirmed base; verify @ contains only documentation.
+jj describe -m "docs: plan the feature"
+jj bookmark set "$bookmark" -r @
+jj git push --remote origin --bookmark "$bookmark"
+gh pr create --draft --base "$base" --head "$bookmark"
 ```
 
-Use the routing table below to publish each change. Open the draft PR after the first planning commit is pushed. Add child changes with `jj new` and reuse the same bookmark and PR. If a push safety check fails, fetch and inspect the remote state before retrying.
+Keep the PR in draft through approval and implementation. Publish code using the reviewed-commit sequence below, not the draft's direct bookmark command. If a push safety check fails, fetch and inspect the remote state before retrying.
+
+Only after [final validation](finish.md), mark the same PR ready using its number:
+
+```bash
+gh pr ready "$pr_number"
+```
 
 ## When to route through the review gate
 
@@ -26,9 +34,7 @@ This workflow uses the standalone `jj-review-gate` skill for critical-only block
 
 | Push | Gate? | How to set the bookmark |
 | --- | --- | --- |
-| First planning commit (Phase 1): plan and acceptance test only | **No** | `jj bookmark set <bookmark> -r @` directly, then `jj git push --remote origin --bookmark <bookmark>` |
-| Draft revisions changing the acceptance test | **Yes** | after a pass, set it to the returned reviewed commit ID |
-| Revisions changing only documentation | **No** | `jj bookmark set <bookmark> -r @` directly |
+| First plan and documentation-only revisions | **No** | Set the bookmark directly as in the draft example above |
 | Implementation (Phase 3) and any later code fix (Phase 4) | **Yes** | after a pass, set it to the returned reviewed commit ID |
 | Merge / post-merge re-sync (Phase 5) | **No** | no bookmark mutation on code |
 

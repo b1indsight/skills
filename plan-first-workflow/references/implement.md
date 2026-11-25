@@ -5,9 +5,11 @@ approved plan and its approved amendments, on the **same** bookmark and PR.
 
 ## Implement the approved behavior
 
-Start a child change after the draft commit. Apply the approved interface changes together with their implementations and affected callers, or update the existing algorithm. Keep caller-visible guarantees beside the declarations and comment on non-obvious implementation choices where they are made. Run the first-commit acceptance test against the real implementation; add other tests only for risks it does not cover. Run the project's required checks.
+Start a child of the approved draft with `jj new <bookmark>`. The working copy moves to the new child; the feature bookmark stays on the draft. Move it explicitly to the reviewed commit ID only after the implementation passes the gate below.
 
-Treat the first-commit assertions as the acceptance baseline. Do not remove, skip, or weaken them to make the test pass. If a requirement changes, record which assertion would change and why in the feature-record timeline, and obtain explicit user approval before changing it.
+Turn the approved demo and its expected results into an executable acceptance test. Do not omit or weaken an approved expectation to make the test pass; record any proposed change and its reason in the timeline and obtain explicit approval first.
+
+Implement the interface changes with their affected callers, or update the existing algorithm. Keep caller-visible guarantees beside the declarations and comment on non-obvious implementation choices where they are made. Run the acceptance test against the real implementation; add other tests only for risks it does not cover. Run the project's required checks.
 
 Keep the module map and end-to-end walkthrough current under the [document rules](feature-record.md). If the approved architecture, boundary behavior, or choice of approach must change, append the amendment to the timeline and obtain approval before implementing the revised scope.
 

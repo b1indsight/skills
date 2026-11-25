@@ -7,7 +7,7 @@ that to the reviewer, and merge.
 
 Read [the document rules](feature-record.md) before updating the feature record.
 
-Compare the final acceptance test with the first commit. Every original assertion must still be exercised with at least the same strength unless an explicitly approved amendment accounts for the difference.
+Compare the final acceptance test with the approved demo. Verify every expected outcome is exercised unless an explicitly approved amendment accounts for the difference.
 
 Run the project's own checks (tests, typecheck / lint, build — whatever `AGENTS.md` defines) and
 re-read the final diff. Follow the affected feature walkthrough from its trigger to its observable result. Verify the acceptance test passes against the completed behavior and the module map and flow match what ships. Report validation, ablation outcomes, and remaining limitations in the PR; check that design amendments are in the timeline.

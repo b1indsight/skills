@@ -11,4 +11,6 @@ These directories describe the project across PRs. The feature record describes 
 
 Use the [template](../assets/feature-record-template.md) for the initial plan and for each substantive amendment. Both use the same three subjects: the architecture delta if any, new or changed cross-module interfaces with a caller demo and observable behavior, and alternatives rejected with the reason. Omit inapplicable subjects; do not invent a contract or a rejected option. Keep private algorithms, helper inventories, and per-file implementation steps out of both sections.
 
+The plan adapts the [Rust RFC outline](https://github.com/rust-lang/rfcs/blob/master/0000-template.md) for proposal review; timeline entries follow [architecture decision records (ADRs)](https://learn.microsoft.com/en-us/azure/well-architected/architect-role/architecture-decision-record) to preserve a decision and its rationale when later decisions supersede it.
+
 Keep the shared initial plan as the baseline. Start with an empty timeline; append substantive changes oldest first, distinguishing proposed amendments from approved ones. Link the earlier decision when superseding it. Do not log approvals alone, commits, tool runs, or routine implementation progress. Keep test commands, results, and remaining validation limits with the PR evidence.

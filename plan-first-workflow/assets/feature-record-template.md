@@ -1,12 +1,12 @@
 # [Feature] — Feature record
 
 **Goal:** [What should change for the caller or user?]
-**Acceptance:** [Link the end-to-end flow and the first-commit test.]
+**Acceptance demo:** [Show a short code example with representative input and the expected observable result. Link the relevant end-to-end flow if it exists.]
 
 ## 1. Initial plan
 
 - **Architecture change:** [If module responsibilities, dependencies, or data flow change, give the before → after and link the affected architecture page.]
-- **Cross-module interface, demo, and behavior:** [Name the producer and caller. Sketch the proposed signatures and fields here, then show a short caller example with its expected result. Include error or retry behavior when relevant.]
+- **Cross-module interface and behavior:** [If a boundary changes, name the producer and caller and sketch the proposed signatures and fields used by the demo above. Include error or retry behavior when relevant.]
 - **Rejected alternatives and reasons:** [Which other approach was considered? What requirement or trade-off ruled it out?]
 
 ## 2. PR change timeline

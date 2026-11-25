@@ -1,6 +1,6 @@
 interface:
   display_name: "Plan-First Feature Workflow"
   short_description: "Plan, get approval, and track the PR's change timeline"
-  default_prompt: "Use $plan-first-workflow. Draft the plan and one executable acceptance test. Keep proposed interfaces in the plan until explicit approval, then implement them on the same PR."
+  default_prompt: "Use $plan-first-workflow. Open a draft PR with only the plan, including demo code and its expected result. Wait for explicit user approval before writing tests or production code on the same PR."
 policy:
   allow_implicit_invocation: true
