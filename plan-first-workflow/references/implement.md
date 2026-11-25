@@ -15,6 +15,8 @@ Implement the interface changes with their affected callers, or update the exist
 
 Keep the module map and end-to-end walkthrough current under the [document rules](feature-record.md). If the approved architecture, boundary behavior, or choice of approach must change, append the amendment to the timeline and obtain approval before implementing the revised scope.
 
+As substantive changes land, append a timeline entry for each: the trigger or requirement change, what was actually implemented, and any deviation from the plan with its trade-off. Distinguish completed work from requested or remaining work, and keep an accepted decision separate from its implementation status. Record only meaningful batches, not every commit; link evidence in the PR rather than copying it. A timeline entry does not authorize work outside the approved scope.
+
 ## Validate added complexity with ablation experiments
 
 After implementation and before automated code review, test whether added complexity is

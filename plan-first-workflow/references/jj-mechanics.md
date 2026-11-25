@@ -4,7 +4,7 @@ Shared by several phases. Read this when a phase file sends you here.
 
 ## jj is the primary interface
 
-Use `jj` locally. `@` is a working-copy commit: edits are snapshotted without `git add`, `jj describe` sets its message, and `jj new` starts a child without advancing its parent's bookmark. Push the named bookmark to publish a Git branch for the PR.
+Use `jj` locally. `@` is a working-copy commit: edits are snapshotted without `git add`, `jj describe` sets its message, and `jj new` starts a child without advancing its parent's bookmark. Push the named bookmark to publish a Git branch for the PR. Git branches exist only as remote review artifacts of `jj` bookmarks: do not start feature work with `git checkout -b`, and do not use `git commit` or ad-hoc `git push` for review branches. Reuse the same bookmark for every push to this feature's PR; move it forward rather than creating another.
 
 For the documentation-only draft, set `base` and `bookmark` to the base branch and feature bookmark. Set `feature` to the actual feature name, `repo_url` to the repository's GitHub web URL (without `.git` or a trailing slash), and `plan_path` to the URL-encoded repository-relative path of the feature record. Use the project's required GitHub CLI wrapper in place of `gh` where applicable.
 
