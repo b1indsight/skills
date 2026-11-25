@@ -4,6 +4,7 @@
 
 | Skill | 说明 |
 | --- | --- |
+| [`applying-user-preferences`](applying-user-preferences/) | 执行用户任务和交付结果时，按用户偏好汇报实质进展、继续已获授权的工作，并给出可独立理解的最终答复。 |
 | [`code-principles`](code-principles/) | Mandatory code principles for any task that updates code. Use this skill without exception for implementation, fixes, refactoring, test changes, and every other code update. |
 | [`codex-tool-constraints`](codex-tool-constraints/) | Mandatory constraints for Codex tool usage. Use for every task that reads or writes files or otherwise invokes tools; covers focused file reads and local edit caches organized by date. |
 | [`consulting-claude-oracle`](consulting-claude-oracle/) | Uses the local Claude Code CLI with Claude Opus 5.5 for Oracle consultations, plan generation, and tasks explicitly assigned to Claude. Use whenever a plan needs to be generated, the user explicitly asks Claude to handle a task, or Oracle advice is requested or needed for debugging or design decisions. |
