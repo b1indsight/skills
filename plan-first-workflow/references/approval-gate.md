@@ -4,4 +4,6 @@ Do not write tests or implementation code until the user explicitly approves the
 
 If review changes the proposal, preserve the original plan and append the revised design, demo, and expected result as applicable to the [timeline](feature-record.md). Push that documentation-only revision to the same bookmark and draft PR, then stop again for approval of the revised plan. Approval alone does not need a timeline entry.
 
+In every approval request, link the feature record at the commit just published. After a revision, read `plan_commit` from `jj log --no-graph -r "${bookmark}@origin" -T commit_id` and use `$repo_url/blob/$plan_commit/$plan_path`. The original draft link identifies only the first version.
+
 Only after explicit approval, continue to [implementation](implement.md) on the same PR.

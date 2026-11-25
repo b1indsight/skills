@@ -35,20 +35,7 @@ why ablation does not apply. After simplifying, rerun affected checks before rev
 
 ## Push through the review gate
 
-This is where real code lands, so this push goes through the standalone `jj-review-gate` skill.
-Keep review and publication as separate actions:
-
-1. Finish the code changes in the working-copy change `@`.
-2. Run `scripts/review.sh [revision]`. It reports every finding and returns the reviewed commit
-   ID only when the gate passes. A critical result or execution failure stops publication.
-   Read [review-gate.md](review-gate.md) for the execution and rework authorization rules.
-3. After a pass, set the existing bookmark to the returned commit ID with
-   `jj bookmark set "$bookmark" -r "$reviewed_commit" --ignore-working-copy`.
-4. Push the bookmark to update the **same** PR.
-
-Push the implementation, updated feature-record document, and changelog together, all on the
-same bookmark. Do not create a new bookmark or PR here.
-See [jj-mechanics.md](jj-mechanics.md) for the exact command sequence and how the review gate slots in.
+Prepare the implementation, feature-record update, and changelog as one described commit on the published feature tip. Follow the [code-bearing push sequence](jj-mechanics.md) to review that exact commit and publish it on the same bookmark and PR. A critical finding or execution failure stops publication; follow the [review and rework rules](review-gate.md).
 
 ## Then
 

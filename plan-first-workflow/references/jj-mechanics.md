@@ -41,7 +41,13 @@ This workflow uses the standalone `jj-review-gate` skill for critical-only block
 | Any push containing code or tests, even alongside documentation | **Yes** | after a pass, set it to the returned reviewed commit ID |
 | Merge / post-merge re-sync (Phase 5) | **No** | no bookmark mutation on code |
 
-Classify the entire outgoing range, not just the tip. For a separate documentation update on an existing PR:
+Classify the entire outgoing range, not just the tip. If implementation is in progress, either include the docs in its review or publish the docs separately. For separate publication, first consolidate any unpublished implementation stack into one change and save its identity while it is still `@`:
+
+```bash
+implementation_change=$(jj log -r @ --no-graph -T change_id)
+```
+
+Start the documentation change from the published feature tip:
 
 ```bash
 jj git fetch --remote origin
@@ -54,16 +60,28 @@ jj bookmark set "$bookmark" -r @
 jj git push --remote origin --bookmark "$bookmark"
 ```
 
-If implementation is already in progress, either publish code and docs together through the gate or save the unpublished implementation change ID before switching to docs (`implementation_change=$(jj log -r @ --no-graph -T change_id)`). After pushing the docs, run `jj rebase -s "$implementation_change" -d "$bookmark"` for that unpublished change and its descendants. Return to the implementation with `jj edit "$implementation_change"` before reviewing `@`. Review the rebased code before publishing; a gate result for the old commit ID does not transfer.
-
-For a push that requires review, first run the shared review gate. It returns the exact reviewed commit
-ID on stdout only after a pass. The workflow then sets and pushes the bookmark:
+If you saved an implementation change, resume it after the documentation push:
 
 ```bash
-if reviewed_commit=$(.agents/skills/plan-first-workflow/scripts/review.sh @); then
-  jj bookmark set "$bookmark" -r "$reviewed_commit" --ignore-working-copy &&
-    jj git push --remote origin --bookmark "$bookmark"
-fi
+jj rebase -r "$implementation_change" -d "${bookmark}@origin"
+jj edit "$implementation_change"
+jj status
+```
+
+Resolve any listed conflicts and rerun affected checks before review. Approval of a previous commit ID does not cover the rebased code.
+
+The gate reviews one commit against its parent. For a code-bearing push, prepare one non-merge commit directly on the published feature tip (on the remote base for a new small-change PR). Squash any unpublished stack first; never rewrite published commits. Set `parent` to `${bookmark}@origin` for an existing PR or `${base}@origin` for a new one. Describe the implementation before capturing its ID: changing its description later requires another review.
+
+```bash
+set -e
+jj git fetch --remote origin
+jj describe -m "${change_summary:?Set a nonempty implementation description}"
+candidate=$(jj log --no-graph -r "(@ & children($parent)) ~ (merges() | conflicts())" -T commit_id)
+test -n "$candidate" || { echo 'Expected one conflict-free change directly on the published parent.' >&2; exit 1; }
+reviewed_commit=$(.agents/skills/plan-first-workflow/scripts/review.sh "$candidate")
+test "$reviewed_commit" = "$candidate"
+jj bookmark set "$bookmark" -r "$reviewed_commit" --ignore-working-copy
+jj git push --remote origin --bookmark "$bookmark"
 ```
 
 Run the review with the escalated permissions required by the subskill. A nonzero review exit
