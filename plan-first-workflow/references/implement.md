@@ -5,7 +5,7 @@ approved plan and its approved amendments, on the **same** bookmark and PR.
 
 ## Implement the approved behavior
 
-Start a child of the approved draft with `jj new <bookmark>`. The working copy moves to the new child; the feature bookmark stays on the draft. Move it explicitly to the reviewed commit ID only after the implementation passes the gate below.
+Start implementation with `jj new <bookmark>` on the published feature tip, including any [separately published documentation update](jj-mechanics.md). The working copy moves to the new child; the bookmark stays on its parent. Move the bookmark onto implementation code only after review, using the exact reviewed commit ID.
 
 Turn the approved demo and its expected results into an executable acceptance test. Do not omit or weaken an approved expectation to make the test pass; record any proposed change and its reason in the timeline and obtain explicit approval first.
 
