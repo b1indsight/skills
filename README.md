@@ -68,6 +68,17 @@ skills/
 `.agents/skills/` 使用，无需规划文档或 PR。原先引用 `jj-bookmark-review` 的项目应
 将 skill 软链接和指令中的名称更新为 `jj-review-gate`。
 
+### `plan-first-workflow` 的功能记录怎么产生？
+
+对于需要规划的功能，agent 在目标项目核对远端基线、项目约定和已有方案。已有计划或设计文档时，在原路径保留原文并补充缺失信息；没有时，复制 [Markdown 模板](plan-first-workflow/assets/feature-record-template.md)，按项目事实填写。新文件优先遵循项目的命名和目录约定，没有约定时使用 `docs/feature-record/<slug>.md`。首次只提交文档，以草稿 PR 征求评审；用户明确批准后，才在同一 bookmark、同一 PR 上写测试和实现。见[规划步骤](plan-first-workflow/references/plan.md)和[审批规则](plan-first-workflow/references/approval-gate.md)。[很小的改动](plan-first-workflow/references/small-changes.md)可以跳过计划文档和草稿 PR。
+
+| 文档部分 | 写什么、何时写 |
+| --- | --- |
+| 初始方案（送审前） | 写清动机、目标与范围、成功标准，用例说明预期行为，再列技术设计与受影响模块、备选方案和取舍、成本与风险、实施顺序、验证策略。区分审批前必须回答的问题、实现时可解决的问题和延期事项。若增加了复杂机制，先设计与简化版本的对照；不适用时说明原因。 |
+| PR 变更时间线（有事才追加） | 初始为空。方案分享后保留原文，按发生顺序记录实质性需求修订、实现偏差和设计决策。重大决策写明背景、选项、决定及后果；后续决定取代旧决定时链接旧条目。区分提议、已批准、已实现与延期，不为单纯批准、阶段切换或每次提交另记一条。 |
+
+[实现阶段](plan-first-workflow/references/implement.md)在自动代码审查前把实际对照条件、可复现命令、结果和据此做出的取舍写回时间线；无法验证时注明限制。[标记 PR 可评审前](plan-first-workflow/references/finish.md)补齐最终验证和剩余限制。阅读时，以初始方案和后来**已批准**的修订确定范围，以时间线中的实现记录和验证证据判断完成情况。详见[功能记录规则](plan-first-workflow/references/feature-record.md)。
+
 ## 新增 skill
 
 1. 在本仓库新建一个 `<skill-name>/` 目录并编写 `SKILL.md`。
