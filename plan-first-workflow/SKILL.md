@@ -14,7 +14,7 @@ phase needs them.
 - **One feature = one feature-record document = one bookmark = one PR.** The draft plan PR
   becomes the implementation PR; never open a second implementation PR or merge/close the
   plan PR to start fresh.
-- For planned work, the first draft PR commit contains the plan, one acceptance test, and any changed cross-module declarations with empty implementations. Wait for explicit user approval before implementing behavior.
+- For planned work, the first draft PR commit contains the plan, one new acceptance test, and any changed cross-module declarations with explicit unimplemented stubs where a body is required. Wait for explicit user approval before implementing behavior.
 - For a trivial or very small change, read [the small-change path](references/small-changes.md)
   first. It skips planning; code-bearing pushes still require the review gate.
 
