@@ -14,7 +14,7 @@ phase needs them.
 - **One feature = one feature-record document = one bookmark = one PR.** The draft plan PR
   becomes the implementation PR; never open a second implementation PR or merge/close the
   plan PR to start fresh.
-- Do not write tests or implementation code before explicit user approval of the plan.
+- The first draft commit contains only the plan, including demo code and its expected result. Do not write tests or production code before explicit user approval.
 - For a trivial or very small change, read [the small-change path](references/small-changes.md)
   first. It skips planning; code-bearing pushes still require the review gate.
 
@@ -25,12 +25,11 @@ phase needs them.
 | A feature or non-trivial change is requested; no plan PR exists | [Planning (1)](references/plan.md) |
 | The draft plan PR is open; explicit approval is pending | [Approval gate (2)](references/approval-gate.md) |
 | The user approved the plan; implementation is in progress | [Implementation (3)](references/implement.md) |
-| Implementation is pushed; validation, readiness, or merge remains | [Finishing (4–5)](references/finish.md) |
+| Implementation is pushed; validation, readiness, or merge remains | [Finishing (4-5)](references/finish.md) |
 
 ## Supporting references
 
 - When creating or updating the feature record, read [document rules](references/feature-record.md)
   and use [the template](assets/feature-record-template.md).
 - Before version-control operations, read [Jujutsu mechanics](references/jj-mechanics.md).
-- Before a code-bearing bookmark push, read [the workflow review routing](references/review-gate.md)
-  and use the standalone [jj-review-gate subskill](../jj-review-gate/SKILL.md).
+- Before publishing, follow [the workflow review routing](references/review-gate.md). Any documentation-only push skips the automated code review gate; a push containing code or tests uses the standalone [jj-review-gate subskill](../jj-review-gate/SKILL.md).

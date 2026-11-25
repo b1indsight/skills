@@ -1,25 +1,21 @@
 # Phase 3: Implementation
 
-You're here because the user has explicitly approved the plan. Now build it — following the
-approved plan and its approved amendments, on the **same** bookmark and PR.
+Implement the explicitly approved plan and its approved amendments on the same bookmark and PR.
 
-## Choose validation and build test-first when needed
+## Implement the approved behavior
 
-First decide whether new tests are needed based on the change's risk, complexity, and existing
-coverage (see the `code-principles` skill if the repo provides it). When new tests are needed,
-write them first, then implement until they pass. Otherwise, validate the change with existing
-checks or targeted verification proportional to the risk. Run the project's required checks.
+Start implementation with `jj new "$bookmark"` on the published feature tip. The working copy moves to the new child; the bookmark stays on its parent. Move the bookmark onto implementation code only after review, using the exact reviewed commit ID.
 
-## Maintain the feature-record timeline
+Keep only these two kinds of new or changed tests:
 
-As each substantive change is made, append its requirement or trigger, actual implementation,
-and design trade-offs to the same feature-record document. Include affected modules and relevant
-validation evidence; distinguish completed work from requests or remaining work. Follow the
-entry outline in [the template](../assets/feature-record-template.md) and the
-[document rules](feature-record.md). For a material decision, record its context, options, decision/status, and
-consequences; link any earlier decision it supersedes. An accepted decision does not mean its
-implementation or validation is complete. Updating the timeline does not authorize changes
-outside the approved scope.
+- **Behavior tests:** Derive cases only from the approved acceptance demo and its expected outcomes. When an existing module's behavior changes, update its corresponding behavior test in place rather than adding a parallel test. Do not omit or weaken an approved expectation; record the reason for any proposed change in the timeline and obtain explicit approval first.
+- **Regression tests:** For a bug fix, reproduce the reported failure at the affected interface, confirm the test fails for that reason before the fix, and run it unchanged against the fix. If the demo-derived behavior test already reproduces the bug, use that same case rather than duplicating it.
+
+Implement the interface changes with their affected callers, or update the existing algorithm. Keep caller-visible guarantees beside the declarations and comment on non-obvious implementation choices where they are made. Run the behavior and applicable regression tests against the real implementation, along with the project's existing required checks. Temporary validation probes and ablation experiments are not additional committed tests.
+
+Keep the module map and end-to-end walkthrough current under the [document rules](feature-record.md). If the approved architecture, boundary behavior, or choice of approach must change, append the amendment to the timeline and obtain approval before implementing the revised scope.
+
+As substantive changes land, append a timeline entry for each: the trigger or requirement change, what was actually implemented, and any deviation from the plan with its trade-off. Distinguish completed work from requested or remaining work, and keep an accepted decision separate from its implementation status. Record only meaningful batches, not every commit; link evidence in the PR rather than copying it. A timeline entry does not authorize work outside the approved scope.
 
 ## Validate added complexity with ablation experiments
 
@@ -31,8 +27,7 @@ Change one mechanism at a time; compare coupled mechanisms together when needed.
 Use the plan's acceptance criteria to judge observed behavior, benefits, and costs. Keep a
 mechanism only when evidence shows that a simpler variant misses a requirement or makes a
 meaningful trade-off that justifies the complexity; otherwise simplify the implementation.
-Record the setup, reproducible commands, results, and resulting decisions as a feature-record
-timeline entry; link larger evidence artifacts instead of copying raw logs into the document.
+Report the setup, reproducible commands, results, and limitations in the PR evidence. If the comparison changes a design decision, append the decision and its rationale to the timeline.
 A proposed experiment or plausible explanation is not evidence; if a comparison cannot run
 or is inconclusive, record the limitation. Resolve the uncertainty or defer the unsupported
 mechanism before review.
@@ -42,20 +37,7 @@ why ablation does not apply. After simplifying, rerun affected checks before rev
 
 ## Push through the review gate
 
-This is where real code lands, so this push goes through the standalone `jj-review-gate` skill.
-Keep review and publication as separate actions:
-
-1. Finish the code changes in the working-copy change `@`.
-2. Run `scripts/review.sh [revision]`. It reports every finding and returns the reviewed commit
-   ID only when the gate passes. A critical result or execution failure stops publication.
-   Read [review-gate.md](review-gate.md) for the execution and rework authorization rules.
-3. After a pass, set the existing bookmark to the returned commit ID with
-   `jj bookmark set <bookmark> -r <reviewed-commit-id> --ignore-working-copy`.
-4. Push the bookmark to update the **same** PR.
-
-Push the implementation, updated feature-record document, and changelog together, all on the
-same bookmark. Do not create a new bookmark or PR here.
-See [jj-mechanics.md](jj-mechanics.md) for the exact command sequence and how the review gate slots in.
+Prepare the implementation, feature-record update, and changelog as one described commit on the published feature tip. Follow the [code-bearing push sequence](jj-mechanics.md) to review that exact commit and publish it on the same bookmark and PR. A critical finding or execution failure stops publication; follow the [review and rework rules](review-gate.md).
 
 ## Then
 

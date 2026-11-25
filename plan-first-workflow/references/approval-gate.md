@@ -1,22 +1,9 @@
-# Phase 2: Approval gate — STOP
+# Phase 2: STOP until explicit user approval
 
-You're here because a draft PR carrying the plan is open and the user hasn't approved it yet.
-This is a hard stop, and it exists for one reason: planning first is worthless if you plan and
-then immediately build without giving the user the chance to redirect.
+Do not write tests or implementation code until the user explicitly approves the current plan: the goal and scope, the acceptance demo and its expected outcomes, any cross-module contract or architecture changes, and the chosen approach in light of the rejected alternatives. Approval covers the initial plan as amended by the proposed timeline entries presented for this review. An open draft PR, passing checks, silence, or a request for revisions is not approval. Keep the draft PR open; do not mark it ready or merge it.
 
-- **Do not write tests or implementation code** until the user **explicitly** approves the plan.
-- Approval arrives as a review or comment. It is **not** a signal to merge or close the plan PR
-  — that PR stays open and becomes the implementation PR (see the core invariant in [SKILL.md](../SKILL.md)).
-- If the user asks for changes, append the updated requirements, proposed plan amendments,
-  and design trade-offs to the feature-record timeline. Preserve the initial plan and label
-  implementation as pending. Re-push on the **same** bookmark to update the same draft PR,
-  then wait for approval. This is still a docs-only push, so it does not go through the code
-  review gate (see [jj-mechanics.md](jj-mechanics.md)).
-- Do not add a timeline entry solely for plan approval or permission to start implementation.
-  If approval includes substantive requirement or design changes, record those changes under
-  the [document rules](feature-record.md).
+If review changes the proposal, preserve the original plan and append the revised design, demo, and expected result as applicable to the [timeline](feature-record.md). Push that documentation-only revision to the same bookmark and draft PR, then stop again for approval of the revised plan. Approval alone does not need a timeline entry.
 
-## Then
+In every approval request, link the feature record at the commit just published. After a revision, read `plan_commit` from `jj log --no-graph -r "${bookmark}@origin" -T commit_id` and use `$repo_url/blob/$plan_commit/$plan_path`. The original draft link identifies only the first version.
 
-Once — and only once — the user has explicitly approved the plan, go to
-[implement.md](implement.md).
+Only after explicit approval, continue to [implementation](implement.md) on the same PR.
