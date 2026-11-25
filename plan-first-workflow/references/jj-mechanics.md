@@ -4,17 +4,18 @@ Shared by several phases. Read this when a phase file sends you here.
 
 ## jj is the primary interface
 
-Jujutsu (`jj`) is the primary local interface. Git branches exist only as the remote review
-artifacts created from `jj` bookmarks — do not start feature work with `git checkout -b`, and do
-not use `git commit` / ad-hoc `git push` for review branches.
+Use `jj` locally. `@` is a working-copy commit: edits are snapshotted without `git add`, `jj describe` sets its message, and `jj new` starts a child without advancing its parent's bookmark. Push the named bookmark to publish a Git branch for the PR.
 
 For the documentation-only draft, set `base` and `bookmark` to the base branch and feature bookmark. Set `feature` to the actual feature name, `repo_url` to the repository's GitHub web URL (without `.git` or a trailing slash), and `plan_path` to the URL-encoded repository-relative path of the feature record. Use the project's required GitHub CLI wrapper in place of `gh` where applicable.
 
 ```bash
 jj git fetch --remote origin
-# Prepare the plan on the confirmed base; verify @ contains only documentation.
+jj status
+jj new "${base}@origin"
+# Write the feature record, then inspect the working-copy patch before publishing.
+jj diff -r @
 jj describe -m "docs: plan $feature"
-jj bookmark set "$bookmark" -r @
+jj bookmark create "$bookmark" -r @
 jj git push --remote origin --bookmark "$bookmark"
 plan_commit=$(jj log --no-graph -r "$bookmark" -T commit_id)
 gh pr create --draft --base "$base" --head "$bookmark" \
@@ -36,20 +37,32 @@ This workflow uses the standalone `jj-review-gate` skill for critical-only block
 
 | Push | Gate? | How to set the bookmark |
 | --- | --- | --- |
-| First plan and documentation-only revisions before approval | **No** | Set the bookmark directly as in the draft example above |
-| Documentation-only push after approval (e.g., a timeline update) | **No** | Publish a separate documentation commit directly on the current remote bookmark tip, as described below |
+| Any documentation-only push, before or after approval | **No** | Create the bookmark for the first draft; for later revisions move the existing bookmark to the documentation tip |
 | Any push containing code or tests, even alongside documentation | **Yes** | after a pass, set it to the returned reviewed commit ID |
 | Merge / post-merge re-sync (Phase 5) | **No** | no bookmark mutation on code |
 
-After approval, publish any standalone documentation update before starting the next implementation child. The **entire outgoing range** from the remote bookmark must contain only documentation, not just the tip commit. Never advance the bookmark to a documentation child of unpublished code. If implementation is already in progress, either include the docs in its gated push or put the docs in a separate child of the published tip, push only that child, then rebase the unpublished implementation onto it. Review the resulting implementation revision before moving the bookmark to its exact reviewed ID; a review of the pre-rebase ID does not transfer.
+Classify the entire outgoing range, not just the tip. For a separate documentation update on an existing PR:
+
+```bash
+jj git fetch --remote origin
+jj new "${bookmark}@origin"
+# Edit only the documentation.
+jj describe -m "docs: update $feature"
+jj log -r "${bookmark}@origin..@" --summary
+# Proceed only if every outgoing change is documentation-only.
+jj bookmark set "$bookmark" -r @
+jj git push --remote origin --bookmark "$bookmark"
+```
+
+If implementation is already in progress, either publish code and docs together through the gate or save the unpublished implementation change ID before switching to docs (`implementation_change=$(jj log -r @ --no-graph -T change_id)`). After pushing the docs, run `jj rebase -s "$implementation_change" -d "$bookmark"` for that unpublished change and its descendants. Return to the implementation with `jj edit "$implementation_change"` before reviewing `@`. Review the rebased code before publishing; a gate result for the old commit ID does not transfer.
 
 For a push that requires review, first run the shared review gate. It returns the exact reviewed commit
 ID on stdout only after a pass. The workflow then sets and pushes the bookmark:
 
 ```bash
 if reviewed_commit=$(.agents/skills/plan-first-workflow/scripts/review.sh @); then
-  jj bookmark set <bookmark> -r "$reviewed_commit" --ignore-working-copy &&
-    jj git push --remote origin --bookmark <bookmark>
+  jj bookmark set "$bookmark" -r "$reviewed_commit" --ignore-working-copy &&
+    jj git push --remote origin --bookmark "$bookmark"
 fi
 ```
 

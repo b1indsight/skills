@@ -1,19 +1,19 @@
-# [Feature] — Feature record
+# [Feature]: Feature record
 
-**Goal:** [What should change for the caller or user?]
+**Goal:** [Who encounters the current behavior, what should change for them, and what remains outside this change?]
 
 ## 1. Initial plan
 
-- **Acceptance demo:** [Show a short code example with representative input and the expected observable result. Link the relevant end-to-end flow if it exists.]
-- **Cross-module interface and behavior:** [Name the producer and caller and sketch any changed signatures or fields. If module responsibilities, dependencies, or data flow change, describe the delta and link the affected architecture page.]
-- **Rejected alternatives and reasons:** [Which other approach was considered? What requirement or trade-off ruled it out?]
+- **Acceptance demo:** [State the starting conditions and show a short caller example with representative input. Contrast the current result with the expected return value, error, or visible state change. Include a boundary case if it distinguishes the intended behavior. Link the relevant walkthrough if it exists.]
+- **Cross-module interface and behavior:** [If a boundary changes, name the caller and the module that owns the contract. Sketch the changed signatures or fields and explain what callers must do differently. Describe any change to module responsibilities, dependencies, or data flow and link the affected architecture page.]
+- **Rejected alternatives and reasons:** [Name a credible alternative actually considered, such as keeping the existing behavior. State the concrete requirement it misses or the cost that ruled it out, and which trade-off the selected approach accepts.]
 
 ## 2. PR change timeline
 
 <!-- Start empty. For each substantive amendment, append the next numbered entry. Use the same subjects as the initial plan; include only those affected. -->
 <!--
-### [001] — [Amendment and decision status]
-- Acceptance demo: [Revised example input, call, and expected observable result.]
-- Cross-module interface and behavior: [Revised contract or module boundary; link the affected architecture page.]
-- Rejected alternatives and reasons: [What was ruled out and why; link any superseded decision.]
+### [001]: [Amendment, reason, and decision status]
+- Acceptance demo: [Which input, call, or expected result changes? Show the revised example and its observable outcome.]
+- Cross-module interface and behavior: [Which caller or owner is affected? Describe the contract before and after, linking the architecture page if the boundary moves.]
+- Rejected alternatives and reasons: [What requirement or evidence changed the choice? Identify the rejected option and link any decision this replaces.]
 -->

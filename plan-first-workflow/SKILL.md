@@ -25,11 +25,11 @@ phase needs them.
 | A feature or non-trivial change is requested; no plan PR exists | [Planning (1)](references/plan.md) |
 | The draft plan PR is open; explicit approval is pending | [Approval gate (2)](references/approval-gate.md) |
 | The user approved the plan; implementation is in progress | [Implementation (3)](references/implement.md) |
-| Implementation is pushed; validation, readiness, or merge remains | [Finishing (4–5)](references/finish.md) |
+| Implementation is pushed; validation, readiness, or merge remains | [Finishing (4-5)](references/finish.md) |
 
 ## Supporting references
 
 - When creating or updating the feature record, read [document rules](references/feature-record.md)
   and use [the template](assets/feature-record-template.md).
 - Before version-control operations, read [Jujutsu mechanics](references/jj-mechanics.md).
-- Before publishing, follow [the workflow review routing](references/review-gate.md). The first planning commit skips automated code review; later code-bearing pushes use the standalone [jj-review-gate subskill](../jj-review-gate/SKILL.md).
+- Before publishing, follow [the workflow review routing](references/review-gate.md). Any documentation-only push skips the automated code review gate; a push containing code or tests uses the standalone [jj-review-gate subskill](../jj-review-gate/SKILL.md).

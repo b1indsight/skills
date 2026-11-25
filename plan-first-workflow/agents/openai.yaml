@@ -1,6 +1,6 @@
 interface:
   display_name: "Plan-First Feature Workflow"
   short_description: "Plan, get approval, and track the PR's change timeline"
-  default_prompt: "Use $plan-first-workflow. Open a draft PR with only the plan, including demo code and its expected result. Wait for explicit user approval before writing tests or production code on the same PR."
+  default_prompt: "Use $plan-first-workflow. Open a documentation-only draft PR with the acceptance demo, cross-module changes, and rejected alternatives. Stop for explicit approval before writing code or tests. On the same bookmark and PR, update or add behavior tests from the approved demo and reproduce bugs with regression tests. Skip the automated code review gate for documentation-only pushes; review code or tests before publishing."
 policy:
   allow_implicit_invocation: true

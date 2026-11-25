@@ -1,15 +1,17 @@
 # Phase 3: Implementation
 
-You're here because the user has explicitly approved the plan. Now build it — following the
-approved plan and its approved amendments, on the **same** bookmark and PR.
+Implement the explicitly approved plan and its approved amendments on the same bookmark and PR.
 
 ## Implement the approved behavior
 
-Start implementation with `jj new <bookmark>` on the published feature tip, including any [separately published documentation update](jj-mechanics.md). The working copy moves to the new child; the bookmark stays on its parent. Move the bookmark onto implementation code only after review, using the exact reviewed commit ID.
+Start implementation with `jj new "$bookmark"` on the published feature tip. The working copy moves to the new child; the bookmark stays on its parent. Move the bookmark onto implementation code only after review, using the exact reviewed commit ID.
 
-Turn the approved demo and its expected results into an executable acceptance test. Do not omit or weaken an approved expectation to make the test pass; record any proposed change and its reason in the timeline and obtain explicit approval first.
+Keep only these two kinds of new or changed tests:
 
-Implement the interface changes with their affected callers, or update the existing algorithm. Keep caller-visible guarantees beside the declarations and comment on non-obvious implementation choices where they are made. Run the acceptance test against the real implementation; add other tests only for risks it does not cover. Run the project's required checks.
+- **Behavior tests:** Derive cases only from the approved acceptance demo and its expected outcomes. When an existing module's behavior changes, update its corresponding behavior test in place rather than adding a parallel test. Do not omit or weaken an approved expectation; record the reason for any proposed change in the timeline and obtain explicit approval first.
+- **Regression tests:** For a bug fix, reproduce the reported failure at the affected interface, confirm the test fails for that reason before the fix, and run it unchanged against the fix. If the demo-derived behavior test already reproduces the bug, use that same case rather than duplicating it.
+
+Implement the interface changes with their affected callers, or update the existing algorithm. Keep caller-visible guarantees beside the declarations and comment on non-obvious implementation choices where they are made. Run the behavior and applicable regression tests against the real implementation, along with the project's existing required checks. Temporary validation probes and ablation experiments are not additional committed tests.
 
 Keep the module map and end-to-end walkthrough current under the [document rules](feature-record.md). If the approved architecture, boundary behavior, or choice of approach must change, append the amendment to the timeline and obtain approval before implementing the revised scope.
 
@@ -41,7 +43,7 @@ Keep review and publication as separate actions:
    ID only when the gate passes. A critical result or execution failure stops publication.
    Read [review-gate.md](review-gate.md) for the execution and rework authorization rules.
 3. After a pass, set the existing bookmark to the returned commit ID with
-   `jj bookmark set <bookmark> -r <reviewed-commit-id> --ignore-working-copy`.
+   `jj bookmark set "$bookmark" -r "$reviewed_commit" --ignore-working-copy`.
 4. Push the bookmark to update the **same** PR.
 
 Push the implementation, updated feature-record document, and changelog together, all on the
