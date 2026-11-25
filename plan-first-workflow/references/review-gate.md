@@ -1,7 +1,6 @@
 # Review within the plan-first workflow
 
-Use the standalone [jj-review-gate skill](../../jj-review-gate/SKILL.md) for every
-code-bearing bookmark push, including the first draft commit with its acceptance test and any interface declarations.
+Skip automated code review for the [first planning commit](plan.md): it specifies the behavior with a test and optional declarations but does not implement it. Use the standalone [jj-review-gate skill](../../jj-review-gate/SKILL.md) for all other code-bearing pushes, including revisions to the draft test or declarations.
 Read its entrypoint and [execution procedure](../../jj-review-gate/references/review.md)
 before running the gate. It owns the review criteria, result handling, execution permissions,
 timeout, and findings-driven rework rules.

@@ -17,21 +17,22 @@ jj git fetch --remote origin                          # start from the latest ba
 jj describe -m "type(scope): concise summary"         # describe (never leave blank)
 ```
 
-Use the routing table below to publish each change. Open the draft PR after the reviewed first commit is pushed. Add child changes with `jj new` and reuse the same bookmark and PR. If a push safety check fails, fetch and inspect the remote state before retrying.
+Use the routing table below to publish each change. Open the draft PR after the first planning commit is pushed. Add child changes with `jj new` and reuse the same bookmark and PR. If a push safety check fails, fetch and inspect the remote state before retrying.
 
 ## When to route through the review gate
 
 This workflow uses the standalone `jj-review-gate` skill for critical-only blocking Codex
-**code** review. It applies to pushes that carry code and not to design-doc pushes:
+**code** review. Route each push as follows:
 
 | Push | Gate? | How to set the bookmark |
 | --- | --- | --- |
-| First draft commit (Phase 1) and revisions changing tests or declarations | **Yes** | after a pass, set it to the returned reviewed commit ID |
+| First planning commit (Phase 1): plan, acceptance test, optional declarations; no behavior implementation | **No** | `jj bookmark set <bookmark> -r @` directly, then `jj git push --remote origin --bookmark <bookmark>` |
+| Draft revisions changing tests or declarations | **Yes** | after a pass, set it to the returned reviewed commit ID |
 | Revisions changing only documentation | **No** | `jj bookmark set <bookmark> -r @` directly |
 | Implementation (Phase 3) and any later code fix (Phase 4) | **Yes** | after a pass, set it to the returned reviewed commit ID |
 | Merge / post-merge re-sync (Phase 5) | **No** | no bookmark mutation on code |
 
-For a code-bearing push, first run the shared review gate. It returns the exact reviewed commit
+For a push that requires review, first run the shared review gate. It returns the exact reviewed commit
 ID on stdout only after a pass. The workflow then sets and pushes the bookmark:
 
 ```bash

@@ -32,5 +32,4 @@ phase needs them.
 - When creating or updating the feature record, read [document rules](references/feature-record.md)
   and use [the template](assets/feature-record-template.md).
 - Before version-control operations, read [Jujutsu mechanics](references/jj-mechanics.md).
-- Before a code-bearing bookmark push, read [the workflow review routing](references/review-gate.md)
-  and use the standalone [jj-review-gate subskill](../jj-review-gate/SKILL.md).
+- Before publishing, follow [the workflow review routing](references/review-gate.md). The first planning commit skips automated code review; later code-bearing pushes use the standalone [jj-review-gate subskill](../jj-review-gate/SKILL.md).
