@@ -7,6 +7,8 @@ approved plan and its approved amendments, on the **same** bookmark and PR.
 
 Start a child change after the draft commit. Fill the declared methods or update the existing algorithm. Keep caller-visible guarantees beside the declarations and comment on non-obvious implementation choices where they are made. Run the first-commit acceptance test against the real implementation; add other tests only for risks it does not cover. Run the project's required checks.
 
+Treat the first-commit assertions as the acceptance baseline. Do not remove, skip, or weaken them to make the test pass. If a requirement changes, record which assertion would change and why in the feature-record timeline, and obtain explicit user approval before changing it.
+
 Keep the module map and end-to-end walkthrough current under the [document rules](feature-record.md). If the approved architecture, boundary behavior, or choice of approach must change, append the amendment to the timeline and obtain approval before implementing the revised scope.
 
 ## Validate added complexity with ablation experiments
