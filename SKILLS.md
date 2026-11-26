@@ -4,11 +4,11 @@
 
 | Skill | 说明 |
 | --- | --- |
-| [`applying-user-preferences`](applying-user-preferences/) | 每轮对话默认应用此 skill，不限场景，无需用户提醒。按用户偏好汇报实质进展、继续已获授权的工作，并给出可独立理解的最终答复。 |
+| [`applying-user-preferences`](applying-user-preferences/) | Sets the user's expectations for reporting progress, following through on authorized work, and writing self-contained final answers. Follow this guidance throughout every conversation; revisit it as needed. |
 | [`code-principles`](code-principles/) | Mandatory code principles for any task that updates code. Use this skill without exception for implementation, fixes, refactoring, test changes, and every other code update. |
 | [`codex-tool-constraints`](codex-tool-constraints/) | Mandatory constraints for Codex tool usage. Use for every task that reads or writes files or otherwise invokes tools; covers focused file reads and local edit caches organized by date. |
 | [`consulting-claude-oracle`](consulting-claude-oracle/) | Uses the local Claude Code CLI with Claude Opus 5.5 for Oracle consultations, plan generation, and tasks explicitly assigned to Claude. Use whenever a plan needs to be generated, the user explicitly asks Claude to handle a task, or Oracle advice is requested or needed for debugging or design decisions. |
-| [`conversation-style`](conversation-style/) | Applies the user's wording preferences when communicating with them. Use when asking for clarification, sharing progress, or answering the user. |
+| [`conversation-style`](conversation-style/) | Guides how to phrase questions, updates, and answers in the user's preferred style and how to cite sources for factual claims. Follow this guidance throughout every conversation; revisit it as needed. |
 | [`following-tool-rules`](following-tool-rules/) | Enforces mandatory tool usage rules. Use whenever invoking gh or GitHub CLI to access repositories, issues, pull requests, reviews, workflows, releases, or GitHub APIs. All GitHub CLI operations must use gh-bot, including read-only operations. |
 | [`jj-review-gate`](jj-review-gate/) | Review a Jujutsu commit diff with two parallel Codex subagents for functionality/security and complexity, returning a critical-only gate result. Use before publishing code changes or when a review gate is requested. Docs-only changes skip the gate. |
 | [`plan-first-workflow`](plan-first-workflow/) | Plan and deliver a feature or non-trivial repository change through explicit plan approval and implementation on one bookmark and PR. Use when the project follows the plan-first workflow; route small changes through its lightweight path. |

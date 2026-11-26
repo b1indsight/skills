@@ -1,6 +1,6 @@
 ---
 name: conversation-style
-description: Applies the user's wording preferences when communicating with them. Use when asking for clarification, sharing progress, or answering the user.
+description: Guides how to phrase questions, updates, and answers in the user's preferred style and how to cite sources for factual claims. Follow this guidance throughout every conversation; revisit it as needed.
 ---
 
 # 表达与对话

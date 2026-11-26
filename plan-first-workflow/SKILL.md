@@ -10,6 +10,7 @@ phase needs them.
 
 ## Always apply
 
+- Write code in English, including identifiers, comments, and docstrings. Use English for every commit message, both subject and body.
 - At project startup, run `jj root`. Reuse the workspace if it exists. If the project has no jj workspace, run `jj git init --colocate` at the project root (the checkout root for an existing Git repository) so `jj` and `git` share the same working tree. Confirm `jj status` succeeds before continuing.
 - **One feature = one feature-record document = one bookmark = one PR.** The draft plan PR
   becomes the implementation PR; never open a second implementation PR or merge/close the
