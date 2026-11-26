@@ -4,11 +4,11 @@
 
 | Skill | 说明 |
 | --- | --- |
-| [`applying-user-preferences`](applying-user-preferences/) | 每轮对话都必须应用此 skill，不得跳过。按用户偏好汇报实质进展、继续已获授权的工作，并给出可独立理解的最终答复。 |
+| [`applying-user-preferences`](applying-user-preferences/) | 每个对话都必须应用此 skill；每轮是否重读，由 agent 自行判断。按用户偏好汇报实质进展、继续已获授权的工作，并给出可独立理解的最终答复。 |
 | [`code-principles`](code-principles/) | Mandatory code principles for any task that updates code. Use this skill without exception for implementation, fixes, refactoring, test changes, and every other code update. |
 | [`codex-tool-constraints`](codex-tool-constraints/) | Mandatory constraints for Codex tool usage. Use for every task that reads or writes files or otherwise invokes tools; covers focused file reads and local edit caches organized by date. |
 | [`consulting-claude-oracle`](consulting-claude-oracle/) | Uses the local Claude Code CLI with Claude Opus 5.5 for Oracle consultations, plan generation, and tasks explicitly assigned to Claude. Use whenever a plan needs to be generated, the user explicitly asks Claude to handle a task, or Oracle advice is requested or needed for debugging or design decisions. |
-| [`conversation-style`](conversation-style/) | 每轮对话都必须应用此 skill，不得跳过。按用户的表达偏好提出问题、汇报进度和撰写答复；有依据的陈述须标注来源。 |
+| [`conversation-style`](conversation-style/) | 每个对话都必须应用此 skill；每轮是否重读，由 agent 自行判断。按用户的表达偏好提出问题、汇报进度和撰写答复；有依据的陈述须标注来源。 |
 | [`following-tool-rules`](following-tool-rules/) | Enforces mandatory tool usage rules. Use whenever invoking gh or GitHub CLI to access repositories, issues, pull requests, reviews, workflows, releases, or GitHub APIs. All GitHub CLI operations must use gh-bot, including read-only operations. |
 | [`jj-review-gate`](jj-review-gate/) | Review a Jujutsu commit diff with two parallel Codex subagents for functionality/security and complexity, returning a critical-only gate result. Use before publishing code changes or when a review gate is requested. Docs-only changes skip the gate. |
 | [`plan-first-workflow`](plan-first-workflow/) | Plan and deliver a feature or non-trivial repository change through explicit plan approval and implementation on one bookmark and PR. Use when the project follows the plan-first workflow; route small changes through its lightweight path. |
