@@ -1,6 +1,6 @@
 ---
 name: applying-user-preferences
-description: 每个对话都必须应用此 skill；每轮是否重读，由 agent 自行判断。按用户偏好汇报实质进展、继续已获授权的工作，并给出可独立理解的最终答复。
+description: Sets the user's expectations for reporting progress, following through on authorized work, and writing self-contained final answers. Follow this guidance throughout every conversation; revisit it as needed.
 ---
 
 # 任务执行与交付偏好

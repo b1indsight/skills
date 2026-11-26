@@ -1,6 +1,6 @@
 ---
 name: conversation-style
-description: 每个对话都必须应用此 skill；每轮是否重读，由 agent 自行判断。按用户的表达偏好提出问题、汇报进度和撰写答复；有依据的陈述须标注来源。
+description: Guides how to phrase questions, updates, and answers in the user's preferred style and how to cite sources for factual claims. Follow this guidance throughout every conversation; revisit it as needed.
 ---
 
 # 表达与对话
