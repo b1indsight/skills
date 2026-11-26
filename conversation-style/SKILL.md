@@ -1,6 +1,6 @@
 ---
 name: conversation-style
-description: Applies the user's wording preferences when communicating with them. Use when asking for clarification, sharing progress, or answering the user.
+description: 每轮对话都必须应用此 skill，不得跳过。按用户的表达偏好提出问题、汇报进度和撰写答复；有依据的陈述须标注来源。
 ---
 
 # 表达与对话
