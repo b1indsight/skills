@@ -11,7 +11,11 @@ phase needs them.
 ## Always apply
 
 - Write code in English, including identifiers, comments, and docstrings.
-- Every commit message and every PR title must follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Use a typed subject such as `feat: add CSV export` or `fix(parser): handle empty input`. Write both the commit subject and body in English.
+- Every commit message and every PR title must follow Conventional Commits:
+  - Use `type: description` for the commit subject or PR title. Choose the type by what changed: `feat` for a new feature (`feat: add CSV export`), `fix` for a bug fix, and `docs` for documentation only.
+  - Add an optional scope in parentheses to name the affected component, as in `fix(parser): handle empty input`. A draft plan PR title might be `docs(plan): outline CSV export`.
+  - For a breaking change, put `!` immediately before the colon, as in `feat(api)!: require an access token`, or add a `BREAKING CHANGE: <description>` footer to the commit message. Use `!` in the PR title when the PR introduces a breaking change.
+  - Write the commit subject and any commit body in English. Separate the optional body from the subject with a blank line.
 - At project startup, run `jj root`. Reuse the workspace if it exists. If the project has no jj workspace, run `jj git init --colocate` at the project root (the checkout root for an existing Git repository) so `jj` and `git` share the same working tree. Confirm `jj status` succeeds before continuing.
 - **One feature = one feature-record document = one bookmark = one PR.** The draft plan PR
   becomes the implementation PR; never open a second implementation PR or merge/close the
