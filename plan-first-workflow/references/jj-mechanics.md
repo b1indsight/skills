@@ -19,7 +19,7 @@ jj bookmark create "$bookmark" -r @
 jj git push --remote origin --bookmark "$bookmark"
 plan_commit=$(jj log --no-graph -r "$bookmark" -T commit_id)
 gh pr create --draft --base "$base" --head "$bookmark" \
-  --title "Plan: $feature" --body "Review the [$feature plan]($repo_url/blob/$plan_commit/$plan_path) before implementation."
+  --title "docs(plan): outline $feature" --body "Review the [$feature plan]($repo_url/blob/$plan_commit/$plan_path) before implementation."
 ```
 
 Keep the PR in draft through approval and implementation. Publish code using the reviewed-commit sequence below, not the draft's direct bookmark command. If a push safety check fails, fetch and inspect the remote state before retrying.
