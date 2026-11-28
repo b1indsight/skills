@@ -58,8 +58,6 @@ skills/
 
 ## 项目工作流与独立审查
 
-`plan-first-workflow` 要求[每条 commit message 和每个 PR 标题都遵循 Conventional Commits（约定式提交）](plan-first-workflow/SKILL.md#always-apply)。commit 标题和正文都用英文。[计划草稿 PR 示例](plan-first-workflow/references/jj-mechanics.md#jj-is-the-primary-interface)用 `docs(plan): outline <feature>` 作标题，正文链接到该次提交的计划文档；[实现 PR 的收尾要求](plan-first-workflow/references/finish.md)是写明验证结果、适用的消融对比结果和仍未验证的部分。
-
 `plan-first-workflow` 负责规划、审批、实现和 PR 收尾，其审查阶段调用独立的
 [`jj-review-gate`](jj-review-gate/SKILL.md)。审查规则、脚本和 schema 只在后者维护。
 两个目录保持同级；工作流的 `scripts/review.sh [revision]` 转发到共享实现。
